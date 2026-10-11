@@ -1,0 +1,275 @@
+{
+  "id": "st2-example-2",
+  "title": "ST2 Example 2",
+  "scope": "L17–L33 and L35, including SOA and Microservices",
+  "reference": "ST1.html",
+  "totalMarks": 36,
+  "questions": [
+    {
+      "type": "essay",
+      "marks": 10,
+      "prompt": "An exhibition platform manages Exhibitions, Bookings and Visitors. Each booking belongs to exactly one visitor and one exhibition. A visitor can hold multiple historical bookings. An exhibition has a capacity and cannot accept more active bookings than that capacity. A visitor’s address may change without changing their identity. Each booking contains a quoted Money value consisting of amount and currency. Curators manage exhibitions. Separate your answers with blank lines.",
+      "parts": [
+        {
+          "prompt": "1. Identify six plausible domain concepts, including at least one value object. (3 marks)",
+          "marks": 3,
+          "answer": "Exhibition, Booking, Visitor, Curator, Money and Address are plausible. Money or Address can be modelled as a value object when identity is defined by its constituent values.",
+          "rubric": [
+            "0.5 each: six grounded concepts, with at least one defensible value object."
+          ]
+        },
+        {
+          "prompt": "2. For any four concepts, give two suitable attributes each. (2 marks)",
+          "marks": 2,
+          "answer": "Exhibition: exhibitionId, capacity. Booking: bookingId, status. Visitor: visitorId, name. Money: amount, currency.",
+          "rubric": [
+            "0.5 per concept with two suitable attributes, for four concepts."
+          ]
+        },
+        {
+          "prompt": "3. Explain two associations and distinguish Visitor identity from Money equality. (3 marks)",
+          "marks": 3,
+          "answer": "Each Booking refers to one Visitor and one Exhibition; each may have many historical Bookings. Visitor identity persists after its address changes. Two Money values are equal by amount and currency under the chosen representation.",
+          "rubric": [
+            "1 each: two correct associations.",
+            "1: identity versus value distinction using the scenario."
+          ]
+        },
+        {
+          "prompt": "4. State two multiplicities and express the active-capacity constraint separately. (2 marks)",
+          "marks": 2,
+          "answer": "Visitor 1 to Booking 0..*; Exhibition 1 to Booking 0..* over history. Active bookings for an exhibition must not exceed its capacity; a fixed history multiplicity is not a substitute for that invariant.",
+          "rubric": [
+            "1: both multiplicities correct.",
+            "1: active capacity expressed as a business invariant rather than an incorrect fixed history count."
+          ]
+        }
+      ],
+      "topics": [
+        "L18"
+      ],
+      "id": "q2",
+      "number": 1
+    },
+    {
+      "type": "matching",
+      "marks": 4,
+      "prompt": "Match each architectural concept to the distinction it captures.",
+      "options": [
+        "Other services use the owning service boundary rather than querying its tables directly",
+        "A business action that counteracts a completed local step where possible",
+        "Separate processes or deployments that remain tightly coupled in change or operation",
+        "Consumers depend on an agreed interface rather than provider internals"
+      ],
+      "items": [
+        {
+          "prompt": "Service contract",
+          "answer": "Consumers depend on an agreed interface rather than provider internals",
+          "explanation": "Service contract: Consumers depend on an agreed interface rather than provider internals."
+        },
+        {
+          "prompt": "Database ownership per service",
+          "answer": "Other services use the owning service boundary rather than querying its tables directly",
+          "explanation": "Database ownership per service: Other services use the owning service boundary rather than querying its tables directly."
+        },
+        {
+          "prompt": "Saga compensation",
+          "answer": "A business action that counteracts a completed local step where possible",
+          "explanation": "Saga compensation: A business action that counteracts a completed local step where possible."
+        },
+        {
+          "prompt": "Distributed monolith",
+          "answer": "Separate processes or deployments that remain tightly coupled in change or operation",
+          "explanation": "Distributed monolith: Separate processes or deployments that remain tightly coupled in change or operation."
+        }
+      ],
+      "topics": [
+        "L25",
+        "SOA",
+        "MS"
+      ],
+      "id": "q3",
+      "number": 2
+    },
+    {
+      "type": "essay",
+      "marks": 6,
+      "prompt": "For each scenario, choose the most suitable primary mechanism from cross-domain replica, historical backup/restore, idempotent processing, or none of the above. Give one sentence explaining the distinguishing property needed. Marks: one for the choice and one for the justification.",
+      "parts": [
+        {
+          "prompt": "1. A mistaken deletion has already propagated to all live database replicas; valid records from before the deletion are needed. (2 marks)",
+          "marks": 2,
+          "answer": "Historical backup/restore: an earlier recoverable state is needed because current replicas contain the same deletion.",
+          "rubric": [
+            "1: historical backup/restore or point-in-time recovery.",
+            "1: explains why current replicas do not preserve the required history."
+          ]
+        },
+        {
+          "prompt": "2. A payment message is delivered again after the worker recorded success but lost its queue acknowledgement. (2 marks)",
+          "marks": 2,
+          "answer": "Idempotent processing: stable operation identity and duplicate handling prevent repetition of the completed business effect.",
+          "rubric": [
+            "1: idempotent processing.",
+            "1: links repeated delivery/uncertain acknowledgement to one intended effect."
+          ]
+        },
+        {
+          "prompt": "3. A user with a valid session can read records belonging to another tenant. (2 marks)",
+          "marks": 2,
+          "answer": "None of the above: the primary missing control is server-side object/tenant authorisation.",
+          "rubric": [
+            "1: none of the above.",
+            "1: explains the resource-scope access rule rather than availability or duplicate handling."
+          ]
+        }
+      ],
+      "topics": [
+        "L28",
+        "L29",
+        "MS"
+      ],
+      "id": "q4",
+      "number": 3
+    },
+    {
+      "type": "matching",
+      "marks": 4,
+      "prompt": "Match each practice or concept to its direct purpose.",
+      "options": [
+        "The user’s understanding of how the task and system work",
+        "Security activities and learning throughout delivery and operation",
+        "Manage changes that would otherwise break existing consumers",
+        "Reusable implemented interface decisions and components"
+      ],
+      "items": [
+        {
+          "prompt": "Design system",
+          "answer": "Reusable implemented interface decisions and components",
+          "explanation": "Design system: Reusable implemented interface decisions and components."
+        },
+        {
+          "prompt": "User mental model",
+          "answer": "The user’s understanding of how the task and system work",
+          "explanation": "User mental model: The user’s understanding of how the task and system work."
+        },
+        {
+          "prompt": "DevSecOps feedback",
+          "answer": "Security activities and learning throughout delivery and operation",
+          "explanation": "DevSecOps feedback: Security activities and learning throughout delivery and operation."
+        },
+        {
+          "prompt": "Contract versioning/migration",
+          "answer": "Manage changes that would otherwise break existing consumers",
+          "explanation": "Contract versioning/migration: Manage changes that would otherwise break existing consumers."
+        }
+      ],
+      "topics": [
+        "L17",
+        "L20",
+        "L21",
+        "L25"
+      ],
+      "id": "q6",
+      "number": 4
+    },
+    {
+      "type": "multi",
+      "marks": 5,
+      "prompt": "Which statements about software quality, testing and measurement are valid? Select all that apply. Negative marking applies.",
+      "options": [
+        "A static fault can exist without an observed failure on the inputs tested.",
+        "SQA consists only of the final system test.",
+        "Reducing mean repair time can improve availability without increasing mean operating time.",
+        "Replacing the integration boundary with a mock proves that real boundary works.",
+        "A predictor metric needs contextual interpretation rather than being treated as proof.",
+        "Regression testing can include performance and security checks.",
+        "A requirement stated as “errors below 1%” is satisfied by exactly 1% errors.",
+        "A long-running soak test can reveal resource accumulation missed by a short test.",
+        "A red-team exercise can ignore agreed authorisation and scope because realistic attacks are its goal."
+      ],
+      "correct": [
+        0,
+        2,
+        4,
+        5,
+        7
+      ],
+      "explanation": "These distinctions separate defects from observations, process assurance from testing, and useful metrics from overclaims. Strict thresholds, real integration and assertion quality need explicit attention. Security exercises still need agreed authorisation and scope.",
+      "topics": [
+        "L19",
+        "L30",
+        "L32",
+        "L24"
+      ],
+      "id": "q7",
+      "number": 5
+    },
+    {
+      "type": "short",
+      "marks": 2,
+      "prompt": "For each scenario, write only the most specific testing term. Use the explicitly stated purpose.",
+      "items": [
+        {
+          "prompt": "1. Demand jumps abruptly from 20 requests/s to 800 requests/s and then drops, to observe the response to sudden change.",
+          "answers": [
+            "spike testing",
+            "spike"
+          ],
+          "explanation": "The distinguishing feature is the abrupt load change."
+        },
+        {
+          "prompt": "2. Testers keep increasing demand beyond the known sustainable capacity to inspect overload failure and subsequent recovery.",
+          "answers": [
+            "stress testing",
+            "stress"
+          ],
+          "explanation": "The explicit purpose is behaviour beyond capacity, not merely an expected large workload."
+        }
+      ],
+      "topics": [
+        "L32"
+      ],
+      "id": "q8",
+      "number": 6
+    },
+    {
+      "type": "essay",
+      "marks": 5,
+      "prompt": "A university operates a large media-processing platform. Upload validation, transcoding and catalogue browsing have different scaling demands. Separate experienced teams own the capabilities, need independent releases and can support distributed operations. Long-running transcoding should not block acceptance of valid uploads. The system must expose an accurate processing status to users.",
+      "parts": [
+        {
+          "prompt": "1. Recommend an architectural approach and name the communication style suitable for the long-running work. (2 marks)",
+          "marks": 2,
+          "answer": "Services aligned with independently owned capabilities, with asynchronous queued/event-driven transcoding. A well-justified microservices approach fits independent release and scaling requirements.",
+          "rubric": [
+            "1: suitable independently deployable service approach.",
+            "1: asynchronous queued/event-driven long-running processing."
+          ]
+        },
+        {
+          "prompt": "2. Give three scenario-specific reasons, including one limitation or cost the team must handle. (3 marks)",
+          "marks": 3,
+          "answer": "Separate transcoding capacity can scale without duplicating the whole platform. Service boundaries support the teams’ independent release cadence. Asynchronous work requires pending/completed states, duplicate handling, monitoring and recovery rather than assuming immediate success.",
+          "rubric": [
+            "1: independent capacity linked to workload differences.",
+            "1: independent release/ownership linked to teams.",
+            "1: relevant async/distributed cost and its consequence; accept other well-supported trade-offs."
+          ]
+        }
+      ],
+      "topics": [
+        "L20",
+        "L23",
+        "L28",
+        "SOA",
+        "MS"
+      ],
+      "id": "q11",
+      "number": 7
+    }
+  ],
+  "storageKey": "cos301-st2-example-2-v1",
+  "notes": "Original practice paper based on the reference assessment style. Not an official paper or prediction. No official duration was available in the supplied export.",
+  "multiRule": "Each correct selection earns the question marks divided by the number of correct options. Each incorrect selection deducts the same amount. Omitted options earn zero. Each question is floored at zero. This explicit practice rule is not asserted to be the original marking formula."
+}

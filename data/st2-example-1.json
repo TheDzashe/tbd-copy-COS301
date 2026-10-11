@@ -1,0 +1,365 @@
+{
+  "id": "st2-example-1",
+  "title": "ST2 Example 1",
+  "scope": "L17–L33 and L35, including SOA and Microservices",
+  "reference": "ST1.html",
+  "totalMarks": 51,
+  "questions": [
+    {
+      "type": "essay",
+      "marks": 10,
+      "prompt": "Scenario: You are the architect for CampusCart, a university marketplace. Students buy equipment, staff resolve disputes, and an external provider processes payments. Orders may remain pending during a short worker outage. A student must not read another student’s order. During a defined 30-minute peak test at 150 checkout requests/s, the team wants at most 500 ms p95 latency and less than 1% failed requests. Provide a clear, numbered answer addressing every subpart. Suggested maximum: 250 words.",
+      "parts": [
+        {
+          "prompt": "1. Identify the quality concern addressed by the latency/error requirement, and name two measurement conditions that must be recorded. (3 marks)",
+          "marks": 3,
+          "answer": "Performance efficiency/capacity under a stated workload. Record the environment/configuration and representative request mix or dataset; duration and arrival model are also relevant. The existing 150 requests/s and 30-minute window are part of the acceptance context.",
+          "rubric": [
+            "1: relevant performance quality concern.",
+            "1 each: two distinct measurement conditions relevant to interpreting the result."
+          ]
+        },
+        {
+          "prompt": "2. State one authentication rule and one object-authorisation rule for order access; explain why one does not replace the other. (4 marks)",
+          "marks": 4,
+          "answer": "Verify a caller’s session or credentials before protected access. Then check whether that caller owns the requested order or has the applicable staff permission. Authentication establishes identity; the object rule limits that identity’s actions and resource scope.",
+          "rubric": [
+            "1: verified identity rule.",
+            "1: resource/role-scoped authorisation rule.",
+            "2: explains the separate purpose of each with the scenario."
+          ]
+        },
+        {
+          "prompt": "3. Propose three verification activities, each linked to a different requirement in the scenario. (3 marks)",
+          "marks": 3,
+          "answer": "Run the defined peak workload and compare latency/errors; send direct order requests as owner and non-owner; interrupt a payment worker and verify pending orders later complete without duplicate payment effects.",
+          "rubric": [
+            "1 each: three relevant activities linked to performance, access scope and outage/retry behaviour."
+          ]
+        }
+      ],
+      "topics": [
+        "L22",
+        "L28",
+        "L29",
+        "L32"
+      ],
+      "wordLimit": 250,
+      "id": "q1",
+      "number": 1
+    },
+    {
+      "type": "essay",
+      "marks": 10,
+      "prompt": "A library lends equipment kits. Each kit has a persistent asset number and can be loaned to only one borrower at a time. A borrower may have multiple historical loans. Each loan identifies exactly one kit and one borrower, and records checkout and due dates. A kit can contain several replaceable accessories; an accessory can exist in stock without belonging to a kit. Staff members inspect returned kits. Separate your answers with blank lines.",
+      "parts": [
+        {
+          "prompt": "1. Identify six plausible domain classes. (3 marks)",
+          "marks": 3,
+          "answer": "Borrower, Kit, Loan, Accessory, StaffMember and Inspection are suitable. Other coherent business classes can receive credit when grounded in the scenario.",
+          "rubric": [
+            "0.5 each: six plausible domain concepts, not UI widgets or database infrastructure."
+          ]
+        },
+        {
+          "prompt": "2. For any four classes, give two suitable attributes each. (2 marks)",
+          "marks": 2,
+          "answer": "Kit: assetNumber, condition. Loan: checkoutDate, dueDate. Borrower: borrowerId, name. Inspection: inspectedAt, findings.",
+          "rubric": [
+            "0.5 per class with two suitable attributes, for four classes."
+          ]
+        },
+        {
+          "prompt": "3. Describe three associations and their business meaning. (3 marks)",
+          "marks": 3,
+          "answer": "A Borrower participates in Loans; a Loan records use of one Kit; an Inspection is performed by a StaffMember. A Kit–Accessory association can also be described as a grouping of replaceable items, without claiming mandatory shared lifetime.",
+          "rubric": [
+            "1 each: three meaningful associations explained in the domain."
+          ]
+        },
+        {
+          "prompt": "4. State multiplicities for two associations and distinguish historical loans from the active-loan constraint. (2 marks)",
+          "marks": 2,
+          "answer": "Borrower 1 to Loan 0..*, with each loan belonging to exactly one borrower. Kit 1 to Loan 0..* over history, with an additional invariant of at most one active loan per kit.",
+          "rubric": [
+            "1: a correct first multiplicity in both directions.",
+            "1: correct Kit–Loan history multiplicity plus the separate active-loan constraint."
+          ]
+        }
+      ],
+      "topics": [
+        "L18"
+      ],
+      "id": "q2",
+      "number": 2
+    },
+    {
+      "type": "matching",
+      "marks": 4,
+      "prompt": "Match each UI architecture role to its principal responsibility in the stated pattern.",
+      "options": [
+        "Exposes presentation state and commands for the View to bind to",
+        "Coordinates presentation logic and explicitly updates the View",
+        "Renders the response presentation from supplied data",
+        "Receives input and coordinates the next action"
+      ],
+      "items": [
+        {
+          "prompt": "MVC Controller",
+          "answer": "Receives input and coordinates the next action",
+          "explanation": "MVC Controller: Receives input and coordinates the next action."
+        },
+        {
+          "prompt": "MVVM ViewModel",
+          "answer": "Exposes presentation state and commands for the View to bind to",
+          "explanation": "MVVM ViewModel: Exposes presentation state and commands for the View to bind to."
+        },
+        {
+          "prompt": "MVP Presenter",
+          "answer": "Coordinates presentation logic and explicitly updates the View",
+          "explanation": "MVP Presenter: Coordinates presentation logic and explicitly updates the View."
+        },
+        {
+          "prompt": "Django-style MVT Template",
+          "answer": "Renders the response presentation from supplied data",
+          "explanation": "Django-style MVT Template: Renders the response presentation from supplied data."
+        }
+      ],
+      "topics": [
+        "L18"
+      ],
+      "id": "q3",
+      "number": 3
+    },
+    {
+      "type": "essay",
+      "marks": 6,
+      "prompt": "For each scenario, choose the most suitable test type from load, stress, soak, or none of the above. In one sentence, justify the choice by naming the distinguishing property. Marks: one for the selection and one for the scenario-specific justification.",
+      "parts": [
+        {
+          "prompt": "1. A portal is exercised for 30 minutes at its documented expected peak of 200 requests/s to check its latency and error targets. (2 marks)",
+          "marks": 2,
+          "answer": "Load testing: the demand represents a defined expected operating workload rather than an intentional push beyond capacity.",
+          "rubric": [
+            "1: load.",
+            "1: expected/peak workload tied to acceptance targets."
+          ]
+        },
+        {
+          "prompt": "2. A service is run continuously at a stable, ordinary workload for 12 hours because memory use appears to accumulate slowly. (2 marks)",
+          "marks": 2,
+          "answer": "Soak testing: sustained operation is intended to expose time-dependent leakage or degradation.",
+          "rubric": [
+            "1: soak/endurance.",
+            "1: duration and accumulation mechanism."
+          ]
+        },
+        {
+          "prompt": "3. The team sends another student’s record ID using a valid student session to determine whether the server blocks unauthorised access. (2 marks)",
+          "marks": 2,
+          "answer": "None of the above: this is a targeted security/object-authorisation test, not a workload-shape test.",
+          "rubric": [
+            "1: none of the above.",
+            "1: explains permission enforcement as the property under test."
+          ]
+        }
+      ],
+      "topics": [
+        "L29",
+        "L32"
+      ],
+      "id": "q4",
+      "number": 4
+    },
+    {
+      "type": "matching",
+      "marks": 4,
+      "prompt": "Match each quality/delivery artifact to its purpose.",
+      "options": [
+        "Records decision context, alternatives and consequences",
+        "Defines agreed operations, data and behaviour at an interface",
+        "Checks agreed conditions on submitted changes before progression",
+        "A named reusable design decision consumed by interface implementations"
+      ],
+      "items": [
+        {
+          "prompt": "Design token",
+          "answer": "A named reusable design decision consumed by interface implementations",
+          "explanation": "Design token: A named reusable design decision consumed by interface implementations."
+        },
+        {
+          "prompt": "Architectural decision record",
+          "answer": "Records decision context, alternatives and consequences",
+          "explanation": "Architectural decision record: Records decision context, alternatives and consequences."
+        },
+        {
+          "prompt": "API service contract",
+          "answer": "Defines agreed operations, data and behaviour at an interface",
+          "explanation": "API service contract: Defines agreed operations, data and behaviour at an interface."
+        },
+        {
+          "prompt": "CI quality gate",
+          "answer": "Checks agreed conditions on submitted changes before progression",
+          "explanation": "CI quality gate: Checks agreed conditions on submitted changes before progression."
+        }
+      ],
+      "topics": [
+        "L17",
+        "L21",
+        "L22",
+        "L25"
+      ],
+      "id": "q6",
+      "number": 5
+    },
+    {
+      "type": "multi",
+      "marks": 5,
+      "prompt": "Which statements are defensible engineering claims? Select all that apply. Negative marking applies using the explicit practice rule on this paper.",
+      "options": [
+        "A shared contract can enable frontend development with mocks while the provider is implemented.",
+        "Matching a response schema proves that the returned data belongs to the authorised user.",
+        "A design system can carry reusable design decisions into code.",
+        "A context-free code-coverage percentage proves tests contain meaningful assertions.",
+        "A deployment diagram should identify the environment and relevant failure domains.",
+        "A technical presentation should distinguish tested conditions from planned functionality.",
+        "A no-code workflow still needs ownership, permission checks and failure testing.",
+        "An automated vulnerability scan is equivalent to an authorised red-team exercise that also evaluates detection and response.",
+        "Source formatting alone establishes runtime availability."
+      ],
+      "correct": [
+        0,
+        2,
+        4,
+        5,
+        6
+      ],
+      "explanation": "Contracts, implemented design decisions, explicit topology, honest presentation scope and maintained workflows supply bounded evidence. Schemas do not prove permissions, coverage does not prove meaningful assertions, and automated scanning does not reproduce the scope of an authorised adversary exercise.",
+      "topics": [
+        "L17",
+        "L19",
+        "L25",
+        "L28",
+        "L30",
+        "L33",
+        "L24",
+        "L31"
+      ],
+      "id": "q7",
+      "number": 6
+    },
+    {
+      "type": "short",
+      "marks": 2,
+      "prompt": "For each scenario below, write only the most specific testing term. Base the answer on the purpose explicitly stated.",
+      "items": [
+        {
+          "prompt": "1. After modifying the cache, the team reruns existing response-time tests to detect a loss of previously achieved performance.",
+          "answers": [
+            "non-functional regression testing",
+            "performance regression testing",
+            "regression testing",
+            "regression"
+          ],
+          "explanation": "The purpose is checking for an unintended quality regression after change."
+        },
+        {
+          "prompt": "2. The database is populated with ten times as many records, while arrival rate stays fixed, to assess the effect of data size.",
+          "answers": [
+            "volume testing",
+            "volume"
+          ],
+          "explanation": "The changed dimension is dataset size rather than arrival-rate overload."
+        }
+      ],
+      "topics": [
+        "L30",
+        "L32"
+      ],
+      "id": "q8",
+      "number": 7
+    },
+    {
+      "type": "matching",
+      "marks": 5,
+      "prompt": "Match each term in Column A with the most precise description in Column B.",
+      "options": [
+        "Observed incorrect or unexpected runtime behaviour",
+        "Target maximum acceptable data-loss interval",
+        "Target maximum acceptable service-restoration time",
+        "Only the permissions needed for the relevant task",
+        "A static defect that can cause incorrect runtime behaviour"
+      ],
+      "items": [
+        {
+          "prompt": "Fault",
+          "answer": "A static defect that can cause incorrect runtime behaviour",
+          "explanation": "Fault: A static defect that can cause incorrect runtime behaviour."
+        },
+        {
+          "prompt": "Failure",
+          "answer": "Observed incorrect or unexpected runtime behaviour",
+          "explanation": "Failure: Observed incorrect or unexpected runtime behaviour."
+        },
+        {
+          "prompt": "RPO",
+          "answer": "Target maximum acceptable data-loss interval",
+          "explanation": "RPO: Target maximum acceptable data-loss interval."
+        },
+        {
+          "prompt": "RTO",
+          "answer": "Target maximum acceptable service-restoration time",
+          "explanation": "RTO: Target maximum acceptable service-restoration time."
+        },
+        {
+          "prompt": "Least privilege",
+          "answer": "Only the permissions needed for the relevant task",
+          "explanation": "Least privilege: Only the permissions needed for the relevant task."
+        }
+      ],
+      "topics": [
+        "L28",
+        "L29",
+        "L30"
+      ],
+      "id": "q9",
+      "number": 8
+    },
+    {
+      "type": "essay",
+      "marks": 5,
+      "prompt": "A four-person team is building a departmental booking application with moderate, predictable traffic. It has several related capabilities, one release cadence, and no requirement to deploy or scale those capabilities independently. The team needs clear boundaries and maintainable code but has little capacity for distributed operations.",
+      "parts": [
+        {
+          "prompt": "1. Recommend the most suitable architectural starting point and state its defining property. (2 marks)",
+          "marks": 2,
+          "answer": "A modular monolith: one deployable application with intentionally separated internal modules and interfaces.",
+          "rubric": [
+            "1: modular monolith or equivalently justified single-deployment modular design.",
+            "1: clear internal boundaries within one deployment."
+          ]
+        },
+        {
+          "prompt": "2. Give three reasons tied to this scenario. (3 marks)",
+          "marks": 3,
+          "answer": "It fits the shared release cadence; avoids unnecessary network/partial-failure and operational overhead for a small team; preserves internal separation and testability without requiring independent deployments.",
+          "rubric": [
+            "1 each: three distinct scenario-linked reasons. Accept defensible alternatives only when their additional costs are addressed."
+          ]
+        }
+      ],
+      "topics": [
+        "L18",
+        "L22",
+        "L23",
+        "SOA",
+        "MS"
+      ],
+      "id": "q11",
+      "number": 9
+    }
+  ],
+  "storageKey": "cos301-st2-example-1-v1",
+  "notes": "Original practice paper based on the reference assessment style. Not an official paper or prediction. No official duration was available in the supplied export.",
+  "multiRule": "Each correct selection earns the question marks divided by the number of correct options. Each incorrect selection deducts the same amount. Omitted options earn zero. Each question is floored at zero. This explicit practice rule is not asserted to be the original marking formula."
+}
