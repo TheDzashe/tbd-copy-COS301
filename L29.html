@@ -1,0 +1,1517 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secure Software Development — ST2 Study Guide</title>
+<style>
+/* ============================================================
+   CT3 Study Guides — shared dark academic theme
+   Identical across every lecture file. Edit here, regenerate all.
+   ============================================================ */
+
+:root {
+  --bg: #0b0e11;
+  --surface: #12161b;
+  --card: #1a1f26;
+  --card-border: #262d37;
+  --text: #e8ecf1;
+  --text-dim: #9aa4b2;
+  --text-faint: #626d7a;
+  --accent: #4a90f8;
+  --accent-dim: #2c5aa8;
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.12);
+  --warning: #f59e0b;
+  --error: #f56363;
+  --error-bg: rgba(245, 99, 99, 0.12);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --easing: cubic-bezier(0.2, 0, 0, 1);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--accent-dim); color: #fff; }
+
+/* ---------- Nav ---------- */
+
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11, 14, 17, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.topnav-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.topnav-brand {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.topnav-brand span { color: var(--accent); }
+
+.topnav-links {
+  display: flex;
+  gap: var(--space-1);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  flex: 1;
+}
+
+.topnav-links::-webkit-scrollbar { height: 4px; }
+.topnav-links::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 2px; }
+
+.topnav-links a {
+  flex: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background var(--duration-fast) var(--easing), color var(--duration-fast) var(--easing);
+}
+
+.topnav-links a:hover { background: var(--card); color: var(--text); }
+.topnav-links a.active { background: var(--accent-dim); color: #fff; }
+
+/* ---------- Layout ---------- */
+
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) 120px;
+}
+
+.hero {
+  margin-bottom: var(--space-8);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: var(--space-2);
+}
+
+.hero h1 {
+  font-size: 30px;
+  line-height: 1.25;
+  margin: 0 0 var(--space-2);
+  letter-spacing: -0.01em;
+}
+
+.hero p {
+  color: var(--text-dim);
+  font-size: 16px;
+  margin: 0;
+}
+
+.section-tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  border-bottom: 1px solid var(--card-border);
+  position: sticky;
+  top: 53px;
+  background: var(--bg);
+  z-index: 50;
+  padding-top: var(--space-2);
+}
+
+.section-tab {
+  padding: var(--space-2) var(--space-4);
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color var(--duration-fast) var(--easing);
+}
+
+.section-tab:hover { color: var(--text); }
+.section-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.section-panel { display: none; }
+.section-panel.active { display: block; animation: fadein var(--duration-normal) var(--easing); }
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Content (rendered markdown) ---------- */
+
+.content h2 {
+  font-size: 22px;
+  margin: var(--space-8) 0 var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--card-border);
+  letter-spacing: -0.005em;
+}
+.content h2:first-child { margin-top: 0; }
+
+.content h3 {
+  font-size: 17px;
+  color: var(--accent);
+  margin: var(--space-6) 0 var(--space-2);
+}
+
+.content p { color: var(--text); margin: 0 0 var(--space-4); }
+.content strong { color: #fff; font-weight: 600; }
+.content ul, .content ol { margin: 0 0 var(--space-4); padding-left: 22px; color: var(--text); }
+.content li { margin-bottom: var(--space-1); }
+.content li strong { color: var(--text); }
+
+.content code {
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  color: #ffd479;
+}
+
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+  margin: 0 0 var(--space-4);
+}
+
+.content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #d8dee9;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 var(--space-4);
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+}
+
+.content th, .content td {
+  border: 1px solid var(--card-border);
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  vertical-align: top;
+}
+
+.content th {
+  background: var(--card);
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.content tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+
+.content hr {
+  border: none;
+  border-top: 1px solid var(--card-border);
+  margin: var(--space-8) 0;
+}
+
+.content blockquote {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--card);
+  border-left: 3px solid var(--warning);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+.content blockquote p:last-child { margin-bottom: 0; }
+.content blockquote strong { color: var(--text); }
+
+/* ---------- Diagrams ---------- */
+
+.diagram {
+  margin: 0 0 var(--space-6);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  text-align: center;
+}
+.diagram svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.diagram-caption {
+  margin-top: var(--space-3);
+  font-size: 12.5px;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+/* ---------- TL;DR box ---------- */
+
+.tldr-box {
+  background: linear-gradient(135deg, rgba(74,144,248,0.10), rgba(74,144,248,0.03));
+  border: 1px solid var(--accent-dim);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+.tldr-box-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.tldr-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--accent);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.tldr-box-header span.label { font-size: 13px; color: var(--text-dim); font-weight: 600; }
+.tldr-box ul { margin: 0; padding-left: 20px; }
+.tldr-box li { margin-bottom: 6px; color: var(--text); font-size: 14.5px; }
+.tldr-box li:last-child { margin-bottom: 0; }
+.tldr-box li strong { color: #fff; }
+.tldr-box code {
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  color: #ffd479;
+}
+
+/* ---------- Flashcards ---------- */
+
+.flash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.flash-card {
+  perspective: 1200px;
+  height: 160px;
+  cursor: pointer;
+}
+
+.flash-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 400ms;
+  transform-style: preserve-3d;
+}
+.flash-card.flipped .flash-card-inner { transform: rotateY(180deg); }
+
+.flash-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--card-border);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.flash-front {
+  background: var(--surface);
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+.flash-front .flash-term { font-size: 16px; font-weight: 700; color: var(--text); }
+.flash-front .flash-hint { margin-top: auto; font-size: 11px; color: var(--text-faint); }
+.flash-back {
+  background: var(--card);
+  border-color: var(--accent-dim);
+  transform: rotateY(180deg);
+  justify-content: center;
+}
+.flash-back .flash-def { font-size: 13.5px; color: var(--text-dim); line-height: 1.5; }
+.flash-back .flash-def code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  color: #ffd479;
+}
+
+.flash-card.known .flash-front { border-color: var(--success); }
+.flash-card.known .flash-front::after {
+  content: "✓ known";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 11px;
+  color: var(--success);
+  font-family: var(--font-mono);
+}
+
+.flash-know-btn {
+  margin-top: var(--space-2);
+  align-self: flex-start;
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+/* ---------- Quiz (MCQ) ---------- */
+
+.quiz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.quiz-score {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.quiz-score b { color: var(--text); }
+
+.progress-bar {
+  height: 6px;
+  background: var(--card);
+  border-radius: 999px;
+  overflow: hidden;
+  flex: 1;
+  min-width: 120px;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width var(--duration-normal) var(--easing);
+}
+
+.btn {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--easing), border-color var(--duration-fast) var(--easing);
+}
+.btn:hover { background: #232a33; border-color: #38414d; }
+.btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-accent:hover { background: #3a7de0; }
+
+.mcq-card {
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.mcq-q {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 var(--space-4);
+  display: flex;
+  gap: var(--space-2);
+}
+
+.mcq-q .mcq-index {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  flex: none;
+}
+
+.mcq-options { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.mcq-option {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--easing), background var(--duration-fast) var(--easing);
+}
+
+.mcq-option:hover:not(:disabled) { border-color: var(--accent); }
+.mcq-option:disabled { cursor: default; }
+
+.mcq-option.correct { background: var(--success-bg); border-color: var(--success); color: #baf7cf; }
+.mcq-option.incorrect { background: var(--error-bg); border-color: var(--error); color: #ffc9c9; }
+.mcq-option.reveal-correct { border-color: var(--success); color: #baf7cf; }
+
+.mcq-explanation {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--card);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 13.5px;
+  color: var(--text-dim);
+  display: none;
+}
+.mcq-explanation.show { display: block; animation: fadein var(--duration-normal) var(--easing); }
+.mcq-explanation b { color: var(--text); }
+
+/* ---------- Tech questions ---------- */
+
+.tech-card {
+  background: var(--surface);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.tech-q-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  justify-content: space-between;
+}
+
+.tech-q {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  gap: var(--space-2);
+}
+.tech-q .mcq-index { color: var(--accent); font-family: var(--font-mono); flex: none; }
+
+.tech-reviewed-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-faint);
+  flex: none;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.tech-reviewed-label input { accent-color: var(--accent); }
+
+.tech-answer {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--card-border);
+  display: none;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.tech-answer.show { display: block; animation: fadein var(--duration-normal) var(--easing); }
+.tech-answer p { margin: 0 0 var(--space-3); color: var(--text-dim); }
+.tech-answer ul { margin: 0 0 var(--space-3); padding-left: 20px; }
+.tech-answer strong { color: var(--text); }
+.tech-answer code {
+  font-family: var(--font-mono);
+  font-size: 0.87em;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  color: #ffd479;
+}
+
+.reveal-btn {
+  margin-top: var(--space-4);
+}
+
+/* ---------- Footer ---------- */
+
+.page-footer {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.page-footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+.page-footer a:hover { color: var(--accent); }
+
+@media (max-width: 640px) {
+  .page { padding: var(--space-6) var(--space-4) 100px; }
+  .hero h1 { font-size: 24px; }
+  .section-tabs { top: 49px; flex-wrap: wrap; }
+  .section-tab { flex: 1 1 calc(50% - var(--space-2)); }
+}
+/* Embedded only in guides that define guided learning content. */
+.learning { margin: 28px 0; padding: 24px; border: 1px solid #35547c; border-radius: 14px; background: linear-gradient(145deg, #142132, #12161b 65%); scroll-margin-top: 170px; }
+.learning h2 { margin-top: 0; }
+.learning h3 { margin-top: 20px; }
+.learning-kicker { color: #9dc5ff; font: 12px var(--font-mono); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+.learning-intro, .learning-hint { color: var(--text-dim); }
+.learning .learning-flow { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; padding: 0; margin: 24px 0; }
+.learning-flow li { position: relative; margin: 0; min-width: 0; }
+.learning-flow li:not(:last-child)::after { content: '→'; position: absolute; top: 24px; right: -20px; color: #91baff; }
+.learning-node { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: 100%; min-height: 100px; padding: 12px; border: 1px solid #52657e; border-radius: 10px; background: #182230; color: var(--text); text-align: left; font: inherit; cursor: pointer; overflow-wrap: anywhere; }
+.learning-node span:first-child { font: 12px var(--font-mono); color: #b3c2d5; }
+.learning-node[aria-pressed=true] { border-color: #74adff; background: #213e64; box-shadow: inset 0 0 0 1px #74adff; }
+.learning-step { padding: 20px; border-radius: 10px; background: #0f1721; border: 1px solid #33465e; }
+.learning-step h3 { margin-top: 0; }
+.learning .learning-step p:last-child { margin-bottom: 0; }
+.learning-trap { border-left: 3px solid #e9b458; padding-left: 12px; }
+.learning-controls { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; align-items: center; }
+.learning-controls .learning-position { color: #b3c2d5; font: 12px var(--font-mono); }
+.learning-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 20px 0; }
+.learning-field { display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: #d7e4f5; min-width: 0; }
+.learning-field input, .learning-field select { width: 100%; min-width: 0; padding: 10px; border: 1px solid #52657e; border-radius: 7px; background: #0b111a; color: #f1f5fc; font: inherit; }
+.learning input[type=checkbox] { width: 20px; height: 20px; flex: none; accent-color: #4a90f8; }
+.learning-check-label { display: flex; align-items: flex-start; gap: 10px; margin: 14px 0; cursor: pointer; }
+.learning-result { padding: 18px; border-left: 3px solid #74adff; background: #111e2e; border-radius: 7px; margin: 18px 0; }
+.learning-result strong { display: block; font-size: 18px; margin-bottom: 8px; }
+.learning-result p:last-child { margin-bottom: 0; }
+.learning-error { color: #ffc1c1; }
+.learning-viz { display: grid; gap: 12px; margin: 18px 0; }
+.learning-domains { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.learning-domain { padding: 16px; border: 1px dashed #657d9d; border-radius: 10px; min-width: 0; }
+.learning-domain h4 { margin: 0 0 12px; color: #c2d9f8; }
+.learning-component { padding: 12px; margin: 8px 0; border: 1px solid #467a66; border-radius: 7px; background: #142a23; color: #bdf1d6; }
+.learning-component.offline { border-color: #a06267; background: #301c22; color: #ffccd0; }
+.learning-component small { display: block; margin-top: 4px; color: inherit; }
+.learning-bars { display: flex; align-items: flex-end; gap: 4px; height: 145px; border-bottom: 1px solid #6682a7; padding-top: 15px; }
+.learning-bar { flex: 1; min-width: 0; background: #72aaf8; border-radius: 3px 3px 0 0; }
+.learning-bar.slow { background: #efb45b; }
+.learning-meter { width: 100%; height: 16px; border-radius: 8px; background: #24354c; overflow: hidden; margin: 12px 0; }
+.learning-meter span { display: block; height: 100%; background: #7eb4ff; }
+.learning-check { padding-top: 22px; border-top: 1px solid #33465e; margin-top: 24px; }
+.learning-check fieldset { padding: 0; border: 0; min-width: 0; }
+.learning-check legend { padding: 0; font-size: 17px; font-weight: 600; margin-bottom: 14px; }
+.learning-choice { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; cursor: pointer; }
+.learning-choice input { margin: 5px 0 0; accent-color: #4a90f8; flex: none; }
+.learning-feedback { padding: 14px; border: 1px solid #4c6687; border-radius: 7px; margin-top: 14px; background: #101e2f; }
+.learning details { margin-top: 12px; }
+.learning summary { color: #a9cfff; cursor: pointer; padding: 8px 0; }
+.learning button:focus-visible, .learning input:focus-visible, .learning select:focus-visible, .learning summary:focus-visible { outline: 3px solid #f6c96a; outline-offset: 3px; }
+.learning button:disabled { opacity: .5; cursor: not-allowed; }
+.learning-jump { display: block; padding: 14px 18px; margin: 20px 0; border: 1px solid #35547c; border-radius: 9px; color: #b5d4ff; text-decoration: none; }
+@media (max-width: 640px) {
+ .learning { padding: 16px; }
+ .learning .learning-flow { grid-template-columns: 1fr; gap: 25px; }
+ .learning-node { min-height: 0; flex-direction: row; align-items: center; gap: 12px; }
+ .learning-flow li:not(:last-child)::after { content: '↓'; top: auto; bottom: -25px; right: auto; left: 22px; }
+ .learning-form, .learning-domains { grid-template-columns: 1fr; }
+ .learning-step { padding: 16px; }
+ .learning-result { padding: 14px; }
+}
+
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="topnav-brand">COS301 <span>Study Guides</span></a>
+    <div class="topnav-links">
+      <a href="index.html" class="">Home</a>
+<a href="ct4-practice-test.html">CT4 Practice Test</a>
+<a href="slide-explainer.html">Slides Explained</a>
+<a href="architecture-atlas.html">Architecture Diagrams</a>
+<a href="index.html#practice-papers">Example Papers</a>
+<a href="L17.html" class="">L17 · Design Systems &amp; CI</a>
+<a href="L18.html" class="">L18 · Domain Modelling &amp; Architectures</a>
+<a href="L19.html" class="">L19 · Software Testing in Practice</a>
+<a href="L20.html" class="">L20 · Designed for Humans</a>
+<a href="L21.html" class="">L21 · DevOps &amp; DevSecOps</a>
+<a href="L22.html" class="">L22 · Practical Architectural Design</a>
+<a href="L23.html" class="">L23 · Architecture in Practice</a>
+<a href="L24.html" class="">L24 · Security Testing</a>
+<a href="L25.html" class="">L25 · Service Contracts</a>
+<a href="SOA.html" class="">SOA · Service-Oriented Architecture</a>
+<a href="MS.html" class="">MS · Microservices Deep Dive</a>
+<a href="L28.html" class="">L28 · Deployment Diagrams</a>
+<a href="L29.html" class="active">L29 · Secure Software Development</a>
+<a href="L30.html" class="">L30 · Quality Assurance &amp; Coding Standards</a>
+<a href="L31.html" class="">L31 · Presentation Skills</a>
+<a href="L32.html" class="">L32 · Non-Functional Testing</a>
+<a href="L33.html" class="">L33 · Low Code, No Code &amp; Vibe Code</a>
+<a href="L35.html" class="">L35 · ST2 Revision</a>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <header class="hero">
+    <div class="hero-eyebrow">L29 &middot; Software Engineering</div>
+    <h1>Secure Software Development</h1>
+    <p>General topic guide: security requirements, threat modelling, secure implementation, verification, and response.</p>
+  </header>
+
+  <div class="section-tabs">
+    <button class="section-tab active" data-target="panel-content">Study Content</button>
+    <button class="section-tab" data-target="panel-flash">Flashcards (14)</button>
+    <button class="section-tab" data-target="panel-mcq">MCQs (20)</button>
+    <button class="section-tab" data-target="panel-tech">Technical Questions (12)</button>
+  </div>
+
+  <section id="panel-content" class="section-panel active">
+    <div id="tldr-box" class="tldr-box"></div>
+    <div id="content-body" class="content"></div>
+<aside class="content" aria-label="Sources and further reading"><h2>Sources and further reading</h2><ul><li><a href="https://csrc.nist.gov/pubs/sp/800/218/final">NIST SSDF v1.1 — lifecycle framework</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html">OWASP — authorisation principles</a></li></ul></aside>
+
+  </section>
+
+  <section id="panel-flash" class="section-panel">
+    <div class="quiz-header">
+      <div id="flash-counter" class="quiz-score">0 / 14 marked known</div>
+      <button id="flash-shuffle" class="btn">Shuffle</button>
+      <button id="flash-reset" class="btn">Reset progress</button>
+    </div>
+    <div id="flash-grid" class="flash-grid"></div>
+  </section>
+
+  <section id="panel-mcq" class="section-panel">
+    <div id="mcq-panel-top" class="quiz-header">
+      <div class="progress-bar"><div id="quiz-progress-fill" class="progress-bar-fill" style="width:0%"></div></div>
+      <div id="quiz-score" class="quiz-score">0 / 0 correct</div>
+      <button id="quiz-reset" class="btn">Shuffle &amp; reset quiz</button>
+    </div>
+    <div id="mcq-list"></div>
+  </section>
+
+  <section id="panel-tech" class="section-panel">
+    <div class="quiz-header">
+      <div id="tech-counter" class="quiz-score">0 / 12 marked reviewed</div>
+    </div>
+    <div id="tech-list"></div>
+  </section>
+
+  <footer class="page-footer">
+    <a href="L28.html">&larr; L28</a>
+    <a href="L30.html">L30 &rarr;</a>
+  </footer>
+</main>
+
+<script id="lecture-data" type="application/json">{"id": "L29", "title": "Secure Software Development", "subtitle": "General topic guide: security requirements, threat modelling, secure implementation, verification, and response.", "contentMarkdown": "## Scope and source\n\n**General study guide \u2014 no L29 lecture slides were supplied.** This rewrite keeps the same secure software development topics, but explains them more slowly and with more \u201cwhy\u201d behind the ideas. The references support the lifecycle and access-control principles.\n\n## 1. Security is not a final checkbox\n\nSecure software development means building software so that it resists misuse, protects important data, and can be maintained when new threats or vulnerabilities appear.\n\nThe key idea: security is a **lifecycle property**. It starts when requirements are written and continues after release. A penetration test near the end can find problems, but it cannot magically fix a design that was built around unsafe assumptions.\n\nExample: if a system stores every tenant's records in one table and never checks which tenant the user belongs to, a late security scan might reveal the problem. But the real fix may require changing data access patterns, tests, and business rules. That is much harder than designing the access rule early.\n\nNIST SSDF groups secure development work into four broad areas:\n\n| Area | Easy meaning | Why it matters |\n|---|---|---|\n| Prepare the organisation | Set roles, standards, tools, and expectations | Teams need a repeatable way to build securely |\n| Protect the software | Protect code, secrets, builds, and artifacts | Attackers may target the development pipeline |\n| Produce well-secured software | Design, code, and test with security in mind | Most security defects are cheaper to fix early |\n| Respond to vulnerabilities | Patch, investigate, and prevent repeat issues | Security changes after release as new facts appear |\n\nThe bigger picture is responsibility. A secure development process creates evidence: requirements, threat models, reviews, tests, findings, fixes, and response records.\n\n## 2. The basic vocabulary: asset, threat, vulnerability, risk\n\nThese words are easy to mix up, so keep them separate:\n\n| Term | Meaning | Example |\n|---|---|---|\n| Asset | Something valuable that must be protected | Student marks, payment records, service availability |\n| Threat | Possible cause of harm | Someone tries to read another student's mark |\n| Vulnerability | Weakness that can be exploited | API does not check record ownership |\n| Risk | Likelihood and impact in context | High risk if many records are exposed through the internet |\n\nWhy this matters: you cannot choose good controls if you do not know what you are protecting and how it might be harmed.\n\nSecurity goals are often described as CIA:\n\n| Goal | Meaning | Example failure |\n|---|---|---|\n| Confidentiality | Prevent unauthorised disclosure | Student sees another student's result |\n| Integrity | Prevent unauthorised modification | Mark is changed without permission |\n| Availability | Keep service usable when needed | Results portal is down during publication |\n\nGood security requirements are observable. \u201cThe system must be secure\u201d is too vague. \u201cA student may read only their own submissions\u201d is testable. You can write positive and negative tests for it.\n\n## 3. Threat modelling: thinking before something breaks\n\nThreat modelling is a structured way to ask: **How could this system be abused, and what are we doing about it?**\n\nA simple process:\n\n1. Define the scope.\n2. Identify valuable assets.\n3. Draw actors, data stores, and data flows.\n4. Mark trust boundaries.\n5. Ask what could go wrong at each boundary.\n6. Choose mitigations.\n7. Assign owners and tests.\n\nThis helps because security problems often appear at boundaries: browser to server, public network to private network, user to admin function, app to database, trusted service to third-party API.\n\nSTRIDE is a checklist:\n\n| STRIDE | Plain question |\n|---|---|\n| Spoofing | Can someone pretend to be another identity? |\n| Tampering | Can data or requests be changed? |\n| Repudiation | Can someone deny doing something because evidence is missing? |\n| Information disclosure | Can private information leak? |\n| Denial of service | Can the system be made unavailable? |\n| Elevation of privilege | Can someone gain powers they should not have? |\n\nExample: for file upload, do not only ask \u201cdoes upload work?\u201d Ask who may upload, what sizes are allowed, where files are stored, who may download them, whether the parser is safe, whether names can escape folders, and whether uploaded content can execute.\n\n## 4. Authentication and authorisation are different\n\nAuthentication means proving identity: \u201cThis request is from Alice.\u201d\n\nAuthorisation means checking permission: \u201cIs Alice allowed to read this specific result?\u201d\n\nA logged-in user is not automatically allowed to do everything. This is one of the most important security ideas in web applications.\n\nExample:\n\n```text\nGET /results/123\n```\n\nEven if Alice is logged in, the server must check whether result 123 belongs to Alice, or whether Alice has a role that permits reading it. Hiding the link in the UI is not enough, because someone can call the API directly.\n\nServer-side checks matter because the client is outside the trust boundary. A browser, mobile app, or HTTP tool can send unexpected requests. The server must enforce the real rule.\n\n## 5. Design principles in plain language\n\n| Principle | Easy meaning | Why it matters |\n|---|---|---|\n| Least privilege | Give only the permissions needed | Limits damage if an account or service is compromised |\n| Deny by default | Reject unless permission is explicitly granted | Missing rules should not become accidental access |\n| Complete mediation | Check access on every relevant request | Attackers may bypass the normal UI path |\n| Defence in depth | Use multiple layers of controls | One failed control should not expose everything |\n| Minimise attack surface | Remove unnecessary entry points | Fewer exposed features means fewer places to attack |\n| Fail securely | Errors should not grant access | A broken policy check must not become \u201callow\u201d |\n\nThese principles are not abstract slogans. They help you explain design choices in an exam. For example: \u201cWe deny by default because if the permission service cannot answer, granting access would expose protected data.\u201d\n\n## 6. Common implementation failures and safer patterns\n\n| Failure | What goes wrong | Safer pattern |\n|---|---|---|\n| SQL injection | User data is treated as query syntax | Parameterised queries |\n| XSS | Untrusted data becomes executable page content | Context-aware output encoding or safe rendering |\n| Broken object access | User can access another user's object | Server-side object and tenant checks |\n| Secret exposure | Credentials are committed or logged | Secret manager, restricted access, scanning |\n| Unsafe errors | Stack traces or tokens leak | Controlled messages and filtered logs |\n| Resource exhaustion | Valid-looking requests consume too much | Limits, timeouts, quotas, rate controls |\n\nThe \u201cwhy\u201d behind SQL injection: a query is instructions to the database. If you build it by concatenating user input, the user may be able to change the instructions. Parameterised queries keep data values separate from executable query structure.\n\nThe \u201cwhy\u201d behind output encoding: the same input can be safe in one context and unsafe in another. Text inside HTML, an attribute, a script, and a URL each have different escaping rules.\n\nClient-side validation is useful for friendly feedback, but it is not enforcement. The server must validate type, range, length, format, and business meaning at the boundary it controls.\n\n## 7. Cryptography: use the right tool for the job\n\nDo not invent cryptography. Use reviewed libraries and current recommended configurations.\n\nKeep these concepts separate:\n\n| Concept | Meaning | Example use |\n|---|---|---|\n| Encoding | Changes representation, reversible without a secret | Base64 |\n| Hashing | One-way digest in intent | Password hashing with salt and work factor |\n| Encryption | Reversible with a key | Protecting data in transit or at rest |\n| Signing | Proves integrity and publisher/key holder | Release artifact signature |\n\nA common mistake is thinking that encoding is security. Base64 text may look unreadable, but anyone can decode it. It is not encryption.\n\n## 8. Verification: different techniques find different problems\n\nSecurity verification needs multiple techniques because each has blind spots.\n\n| Technique | What it does | What it may miss |\n|---|---|---|\n| SAST | Looks at source or compiled code without running it | Runtime configuration and business context |\n| DAST | Tests a running application from the outside | Hidden code paths and source-level causes |\n| SCA | Checks third-party dependencies | First-party business logic bugs |\n| Secret scanning | Looks for exposed credentials | Misconfigured permissions without exposed secrets |\n| Manual review | Uses human judgement on design and code | Can be inconsistent without checklist and time |\n| Penetration testing | Authorised attack-style testing | Limited by scope and time |\n\nA clean scanner report means \u201cthis scanner found no configured findings.\u201d It does not mean \u201cthe application has no vulnerabilities.\u201d\n\nGood response pattern: triage the finding, reproduce it where useful, assess exposure, fix the cause, add a regression test, and document the decision.\n\n## 9. Supply chain and release integrity\n\nYour own code is not the only risk. Modern systems depend on packages, build tools, CI scripts, container images, and deployment credentials.\n\nImportant controls:\n\n- review dependency changes\n- pin or record versions where appropriate\n- maintain a software component inventory\n- restrict build and release credentials\n- separate untrusted contributions from privileged release steps\n- sign or verify artifacts where the environment supports it\n- keep rollback plans realistic\n\nAn SBOM is a list of software components. It helps investigation, but it is not a certificate that the software is safe.\n\nA signed artifact helps verify integrity and origin. But if malicious code was signed by a trusted pipeline, the signature only proves where it came from. Review and testing still matter.\n\n## 10. Worked example: multi-tenant results API\n\nFor:\n\n```text\nGET /results/{id}\n```\n\nthe secure flow should be:\n\n1. Authenticate the caller.\n2. Load the result through a tenant-aware access path.\n3. Check whether this caller may read this result.\n4. Use parameterised data access.\n5. Return a controlled error if access is denied.\n6. Log the security event without leaking tokens or full sensitive content.\n\nTests should include:\n\n- owner can read their own result\n- another student cannot read it\n- assigned tutor can read permitted modules\n- unassigned tutor is denied\n- missing session is denied\n- malformed ID is handled safely\n- unavailable policy service fails securely\n\nIf a vulnerable release existed, response work includes containment, log review, user/data impact assessment, fix, verification, and regression coverage.\n\n## Exam answer pattern\n\nUse this structure:\n\n1. Identify the asset.\n2. Identify the abuse path or weakness.\n3. Explain the control and why it works.\n4. Give one positive test and one negative test.\n5. State a limitation or operational follow-up.\n\nExample: \u201cThe asset is student result confidentiality. The abuse path is changing the result ID to another student\u2019s record. The control is server-side object authorisation on every `GET /results/{id}` request. Test that Alice can read Alice\u2019s result and cannot read Bob\u2019s result. Also audit denied attempts and add regression tests.\u201d\n", "tldr": ["Security belongs across **requirements, design, implementation, release and operation**.", "Distinguish **asset, threat, vulnerability and risk**.", "**Authentication is identity; authorisation is permission** for an action and resource.", "Validate input on the server and use **parameterised queries** and safe output rendering.", "Combine **SAST, DAST, SCA, review and targeted security tests**.", "An **SBOM or signature is evidence**, not proof that software is safe.", "Respond to findings with containment, remediation, verification and regression coverage."], "mcqs": [{"id": "m1", "q": "Which is a measurable security requirement?", "options": ["Students can read only their own submissions", "The system should feel secure", "Security will be added after release", "Developers should avoid all bugs"], "correct": 0, "explanation": "The access rule can be tested with authorised and unauthorised users."}, {"id": "m2", "q": "A weakness allows another tenant's records to be read. What is the weakness?", "options": ["An asset", "A recovery target", "A test environment", "A vulnerability"], "correct": 3, "explanation": "A vulnerability is a weakness that can be exploited to cause harm."}, {"id": "m3", "q": "What does authentication establish?", "options": ["Whether input is valid SQL", "Whether the server can scale", "The caller's identity", "Permission for every record"], "correct": 2, "explanation": "Authorisation is a separate decision about permitted actions and resources."}, {"id": "m4", "q": "Which control addresses object-level access failure?", "options": ["Rename the endpoint", "Check permission for the requested object on the server", "Hide its ID in the UI", "Use a longer URL"], "correct": 1, "explanation": "Client visibility and unpredictable identifiers do not replace access checks."}, {"id": "m5", "q": "What should happen when a required access-policy lookup fails?", "options": ["Deny the protected action and handle the error", "Grant administrator access", "Trust the submitted role field", "Skip all security checks"], "correct": 0, "explanation": "A failed security decision must not become permission granted."}, {"id": "m6", "q": "What primarily prevents data values becoming SQL syntax?", "options": ["Base64 encoding", "Client-side validation alone", "Longer passwords", "Parameterised queries"], "correct": 3, "explanation": "Parameter binding separates data values from query syntax."}, {"id": "m7", "q": "Which control most directly addresses unsafe HTML output?", "options": ["Moving the database to another zone", "Increasing the request timeout", "Context-appropriate output encoding or safe rendering", "Hashing every URL"], "correct": 2, "explanation": "Output safety depends on the context in which untrusted data is rendered."}, {"id": "m8", "q": "Why is client-side validation insufficient?", "options": ["TLS makes all input trusted", "Requests can bypass the client and reach the server directly", "Browsers never validate input", "Validation only matters for integers"], "correct": 1, "explanation": "The server must enforce its constraints regardless of client behaviour."}, {"id": "m9", "q": "Which technique inspects code without executing the application?", "options": ["SAST", "DAST", "Load testing", "User acceptance testing"], "correct": 0, "explanation": "Static analysis works on code or a related representation."}, {"id": "m10", "q": "Which technique probes a running application externally?", "options": ["SAST", "Formatting", "An SBOM inventory", "DAST"], "correct": 3, "explanation": "Dynamic analysis observes behaviour of a running target."}, {"id": "m11", "q": "What is SCA mainly concerned with?", "options": ["Server room temperature", "How quickly a user learns the UI", "Third-party software components and associated risks", "Slide contrast"], "correct": 2, "explanation": "Dependency analysis complements checks on first-party code."}, {"id": "m12", "q": "What does an SBOM provide?", "options": ["Automatic incident containment", "An inventory of software components", "Proof of zero vulnerabilities", "A replacement for access control"], "correct": 1, "explanation": "An inventory supports investigation and management but does not certify security."}, {"id": "m13", "q": "What does least privilege require?", "options": ["Only permissions needed for the task", "All developers share an admin token", "Every workload can read every secret", "Permissions never expire"], "correct": 0, "explanation": "Narrow permissions reduce the potential impact of compromise or mistakes."}, {"id": "m14", "q": "Which action is part of threat modelling?", "options": ["Only choosing a code formatter", "Only measuring response latency", "Only changing the brand colours", "Marking trust boundaries and examining abuse paths"], "correct": 3, "explanation": "Threat modelling connects assets and flows to possible harm and mitigations."}, {"id": "m15", "q": "Which STRIDE category concerns denying that an action occurred?", "options": ["Spoofing", "Elevation of privilege", "Repudiation", "Tampering"], "correct": 2, "explanation": "Attributable audit records can support investigation of disputed actions."}, {"id": "m16", "q": "A valid artifact signature proves which limited property?", "options": ["Adequate load capacity", "Integrity and signer identity under the configured trust model", "The absence of malicious logic", "Correct business requirements"], "correct": 1, "explanation": "Signed software still requires behavioural and security review."}, {"id": "m17", "q": "A scanner reports no findings. What is justified?", "options": ["No findings were detected by those checks under their configuration", "The application has no vulnerabilities", "Access reviews are unnecessary", "Security testing can stop forever"], "correct": 0, "explanation": "Every technique has scope limitations and possible false negatives."}, {"id": "m18", "q": "What is defence in depth?", "options": ["Running the same formatter twice", "Using the longest variable names", "Placing every service in one privileged account", "Multiple complementary controls with different failure modes"], "correct": 3, "explanation": "Complementary controls can reduce dependence on a single imperfect barrier."}, {"id": "m19", "q": "A real credential was committed. Which response is most appropriate?", "options": ["Rename the variable", "Move the repository folder", "Revoke or rotate it and investigate exposure", "Only delete it in the latest commit"], "correct": 2, "explanation": "Removing visible text does not invalidate copies or repository history."}, {"id": "m20", "q": "What should follow a security bug fix?", "options": ["Assume similar endpoints are safe", "Verify the fix and add regression coverage for the abuse path", "Disable all logging", "Remove the threat model"], "correct": 1, "explanation": "Verification and related-path review reduce recurrence and incomplete remediation."}], "techQuestions": [{"id": "t1", "q": "Design a secure-development workflow for a small student team.", "answer": "Agree on sensitive assets, access rules and security ownership before implementation. Review trust boundaries during design, use established secure coding patterns, and run proportionate static, dependency and secret checks in CI. Review sensitive changes and test misuse cases. Before release, verify configuration and recovery. Keep a simple process for reporting, triaging and fixing vulnerabilities after delivery."}, {"id": "t2", "q": "Threat-model a student document upload feature.", "answer": "Identify document confidentiality, service availability and server integrity as assets. Examine authentication, upload limits, parser behaviour, storage permissions and download authorisation. Store uploads so they cannot execute as application code. Test unexpected formats, oversized data and another user's document identifier. Choose mitigations based on the actual processing path rather than relying on filenames alone."}, {"id": "t3", "q": "Explain authentication versus authorisation using two students.", "answer": "Alice's valid login establishes her identity. It does not entitle her to Bob's results. When she requests Bob's record, the server must evaluate the action, record ownership or role, and tenant or module scope before returning data. Test Alice's own record as the positive case and Bob's as the negative case, including direct API requests."}, {"id": "t4", "q": "Why does parameterisation help, and what does it not solve?", "answer": "Bound parameters keep user-supplied values separate from SQL syntax. They do not decide whether the caller may access the selected rows, nor do they validate domain rules such as an allowed date range. Dynamic table or column selection may need a strict allowlist. Combine parameterisation with access checks, input constraints and tests for rejected requests."}, {"id": "t5", "q": "Compare SAST, DAST and SCA in a pipeline.", "answer": "SAST can find suspicious code patterns early but may lack runtime context. DAST sees externally observable behaviour but depends on routes and states exercised. SCA identifies dependency-related exposure but does not inspect all business logic. Use their findings together, triage false positives and gaps, and add manual review or focused tests for high-impact workflows."}, {"id": "t6", "q": "A developer hides the admin button from students. Review the proposed control.", "answer": "Hiding the button improves the interface but students can send requests directly. Enforce the administrator permission on the server for every privileged action and reject unauthorised calls consistently. Test both the UI and direct requests with a lower-privilege identity. Also check object scope: a permitted operation on one resource need not be permitted on another."}, {"id": "t7", "q": "Explain how to handle a leaked deployment credential.", "answer": "Revoke or rotate the credential promptly, replace it through the intended secret mechanism and check dependent services. Investigate where it was copied and whether it was used unexpectedly. Remove exposed material as appropriate, but do not mistake deletion for invalidation. Reduce its future privileges and lifetime, and add scanning or review to address the original leak path."}, {"id": "t8", "q": "Explain a fail-secure design when a permission service is unavailable.", "answer": "Deny protected actions that require an unavailable decision rather than treating an error as permission. Return a controlled error, monitor the outage and restore the dependency. If a cached policy is permitted, define freshness and revocation behaviour explicitly. The choice trades availability against exposure and must reflect the specific operation's risk."}, {"id": "t9", "q": "Prioritise two findings: a reachable cross-tenant read and an unused vulnerable library.", "answer": "Assess reachability, exploitability, data sensitivity and impact for both. A demonstrated cross-tenant read usually warrants urgent containment and remediation. Confirm whether the library is truly unused in all deployed paths, then upgrade or remove it through a tracked process. Do not ignore it solely because no exploit has yet been observed; record the evidence and decision."}, {"id": "t10", "q": "Why are SBOMs and signatures insufficient release gates by themselves?", "answer": "An SBOM says what components are present, while a signature supports artifact integrity and publisher identity. Neither proves correct permissions, safe business logic or acceptable runtime configuration. Combine them with review, tests and vulnerability management. A compromised trusted build system can produce a signed malicious artifact, so protect the pipeline as well as its outputs."}, {"id": "t11", "q": "Write a security test plan for a results API.", "answer": "Cover owner access, another student's record, assigned and unassigned tutors, missing or invalid sessions and malformed identifiers. Check server-side enforcement through direct requests. Verify responses and logs do not expose forbidden data. Include policy-service failure and the previous vulnerable scenario as regression tests. Run against realistic role and tenant relationships rather than a single all-powerful test account."}, {"id": "t12", "q": "How should production vulnerability response improve development?", "answer": "Contain the affected path, assess exposure, remediate and verify the release. Examine whether the root cause was a missing requirement, faulty abstraction, inadequate review or absent test. Update the corresponding process and inspect similar features. Record ownership and follow-up dates so the response produces a durable engineering improvement rather than only a one-off patch."}], "flashcards": [{"id": "f1", "term": "Asset", "definition": "Something valuable that security controls aim to protect."}, {"id": "f2", "term": "Threat", "definition": "A potential cause of harm to an asset or system."}, {"id": "f3", "term": "Vulnerability", "definition": "A weakness that can be exploited."}, {"id": "f4", "term": "Risk", "definition": "Likelihood and impact of harm in a particular context."}, {"id": "f5", "term": "Authentication", "definition": "Establishing a caller's identity."}, {"id": "f6", "term": "Authorisation", "definition": "Deciding whether an identity may perform an action on a resource."}, {"id": "f7", "term": "Least privilege", "definition": "Granting only the permissions needed for a task."}, {"id": "f8", "term": "Deny by default", "definition": "Rejecting access unless an explicit rule permits it."}, {"id": "f9", "term": "SAST", "definition": "Static application security testing of source or related code representations."}, {"id": "f10", "term": "DAST", "definition": "Dynamic application security testing against a running application."}, {"id": "f11", "term": "SCA", "definition": "Software composition analysis of dependencies and component risks."}, {"id": "f12", "term": "SBOM", "definition": "Software bill of materials: an inventory, not a security certificate."}, {"id": "f13", "term": "Misuse case", "definition": "A scenario describing abuse or unwanted system behaviour."}, {"id": "f14", "term": "Regression security test", "definition": "A repeatable check that a previously fixed abuse path remains blocked."}], "sources": [{"title": "NIST SSDF v1.1 \u2014 lifecycle framework", "url": "https://csrc.nist.gov/pubs/sp/800/218/final"}, {"title": "OWASP \u2014 authorisation principles", "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"}], "learning": {"before": "4. Design principles", "title": "Watch a protected request pass through security checks", "intro": "The arrows mean \u201cthe request must pass the next check\u201d. One successful check does not imply the later checks succeeded.", "steps": [{"label": "Authenticate", "title": "1. Establish who is calling", "explanation": "Validate the caller\u2019s credentials or session using the intended mechanism. Treat an identity supplied in an arbitrary request field as an assertion until verified.", "example": "A valid session identifies student Alice.", "trap": "A logged-in user is not an administrator by default."}, {"label": "Authorise", "title": "2. Check this action on this object", "explanation": "Evaluate the verified identity, requested operation and resource scope. Do this on the server for every relevant access, including direct API calls.", "example": "Alice may read her own result; a tutor may read results only for assigned modules.", "trap": "Hiding a button or using a long record ID is not an access-control decision."}, {"label": "Validate", "title": "3. Enforce the operation\u2019s constraints", "explanation": "Check types, bounds and business rules at the server boundary. Keep input values separate from executable syntax and use safe rendering for output.", "example": "An authorised mark update still rejects a value outside the allowed range.", "trap": "An authorised user can still submit malformed or dangerous data."}, {"label": "Act and audit", "title": "4. Perform a bounded, attributable operation", "explanation": "Apply the change and record useful security events without exposing secrets. Handle failures accurately and investigate unexpected access patterns.", "example": "An audit event identifies the actor and operation without copying their session token into logs.", "trap": "A detailed audit log does not undo an unauthorised disclosure."}], "lab": "access", "labTitle": "Try the access decision", "labIntro": "A deliberately small policy: owners can read their result; assigned tutors can read or amend it. An unavailable permission service denies the protected operation.", "checks": [{"prompt": "The application accepts only digits in an order ID. Is another user\u2019s numeric order ID now safe to return?", "options": ["Yes, validation establishes ownership.", "No, object-level authorisation is still required.", "Yes, if the request uses TLS."], "correct": 1, "feedback": ["Validation checks form or meaning, not the caller\u2019s permission to the object.", "Correct. A well-formed identifier can still refer to a forbidden record.", "Encryption protects transport; it does not grant record access."]}, {"prompt": "A security scan has no findings. Which statement can you defend?", "options": ["The application has no vulnerabilities.", "The checks detected no findings under their configuration.", "Manual access-control tests are redundant."], "correct": 1, "feedback": ["A scanner has scope limits and false negatives.", "Correct. Describe the evidence and complement its blind spots.", "Business-specific access rules may need independent tests."]}]}}</script>
+<script>
+/* ============================================================
+   CT3 Study Guides — shared app engine
+   Identical across every lecture file. Reads window.LECTURE_DATA.
+   ============================================================ */
+
+(function () {
+  "use strict";
+
+  /* ---------------- tiny markdown renderer ---------------- */
+  /* Supports: ## / ### headers, **bold**, `code`, ```fenced code```,
+     GFM pipe tables, "- " unordered lists, "---" hr, paragraphs. */
+
+  function escapeHtml(s) {
+    return s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  function inline(s) {
+    let out = escapeHtml(s);
+    out = out.replace(/`([^`]+)`/g, "<code>$1</code>");
+    out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    return out;
+  }
+
+  function renderTable(rows) {
+    const header = rows[0];
+    const body = rows.slice(2);
+    const cell = (r) =>
+      r
+        .trim()
+        .replace(/^\|/, "")
+        .replace(/\|$/, "")
+        .split("|")
+        .map((c) => c.trim());
+    let html = "<table><thead><tr>";
+    cell(header).forEach((c) => (html += `<th>${inline(c)}</th>`));
+    html += "</tr></thead><tbody>";
+    body.forEach((r) => {
+      html += "<tr>";
+      cell(r).forEach((c) => (html += `<td>${inline(c)}</td>`));
+      html += "</tr>";
+    });
+    html += "</tbody></table>";
+    return html;
+  }
+
+  function renderMarkdown(md) {
+    const lines = md.replace(/\r\n/g, "\n").split("\n");
+    let html = "";
+    let i = 0;
+    let para = [];
+
+    function flushPara() {
+      if (para.length) {
+        html += `<p>${inline(para.join(" "))}</p>`;
+        para = [];
+      }
+    }
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      if (/^```/.test(line)) {
+        flushPara();
+        const lang = line.replace(/^```/, "").trim();
+        const code = [];
+        i++;
+        while (i < lines.length && !/^```/.test(lines[i])) {
+          code.push(lines[i]);
+          i++;
+        }
+        if (lang === "svg") {
+          html += `<div class="diagram">${code.join("\n")}</div>`;
+        } else {
+          html += `<pre><code class="lang-${escapeHtml(lang || "text")}">${escapeHtml(
+            code.join("\n")
+          )}</code></pre>`;
+        }
+        i++;
+        continue;
+      }
+
+      if (/^>\s?/.test(line)) {
+        flushPara();
+        const quote = [];
+        while (i < lines.length && /^>\s?/.test(lines[i])) {
+          quote.push(lines[i].replace(/^>\s?/, ""));
+          i++;
+        }
+        html += `<blockquote><p>${inline(quote.join(" "))}</p></blockquote>`;
+        continue;
+      }
+
+      if (/^\s*\|/.test(line) && i + 1 < lines.length && /^\s*\|?\s*-+\s*(\|\s*-+\s*)*\|?\s*$/.test(lines[i + 1])) {
+        flushPara();
+        const rows = [];
+        while (i < lines.length && /^\s*\|/.test(lines[i])) {
+          rows.push(lines[i]);
+          i++;
+        }
+        html += renderTable(rows);
+        continue;
+      }
+
+      if (/^###\s+/.test(line)) {
+        flushPara();
+        html += `<h3>${inline(line.replace(/^###\s+/, ""))}</h3>`;
+        i++;
+        continue;
+      }
+
+      if (/^##\s+/.test(line)) {
+        flushPara();
+        html += `<h2>${inline(line.replace(/^##\s+/, ""))}</h2>`;
+        i++;
+        continue;
+      }
+
+      if (/^-\s+/.test(line)) {
+        flushPara();
+        const items = [];
+        while (i < lines.length && /^-\s+/.test(lines[i])) {
+          items.push(lines[i].replace(/^-\s+/, ""));
+          i++;
+        }
+        html += "<ul>" + items.map((it) => `<li>${inline(it)}</li>`).join("") + "</ul>";
+        continue;
+      }
+
+      if (/^---+\s*$/.test(line)) {
+        flushPara();
+        html += "<hr>";
+        i++;
+        continue;
+      }
+
+      if (line.trim() === "") {
+        flushPara();
+        i++;
+        continue;
+      }
+
+      para.push(line.trim());
+      i++;
+    }
+    flushPara();
+    return html;
+  }
+
+  /* ---------------- utils ---------------- */
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function storageGet(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function storageSet(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+    } catch (e) {
+      /* ignore quota / private-mode errors */
+    }
+  }
+
+  /* ---------------- tabs ---------------- */
+
+  function initTabs() {
+    const tabs = document.querySelectorAll(".section-tab");
+    const panels = document.querySelectorAll(".section-panel");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => t.classList.remove("active"));
+        panels.forEach((p) => p.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.target).classList.add("active");
+        window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+      });
+    });
+  }
+
+  /* ---------------- content ---------------- */
+
+  function renderContent(data) {
+    const el = document.getElementById("content-body");
+    if (el) el.innerHTML = renderMarkdown(data.contentMarkdown);
+  }
+
+  function renderTLDR(data) {
+    const el = document.getElementById("tldr-box");
+    if (!el || !data.tldr || !data.tldr.length) return;
+    el.innerHTML =
+      '<div class="tldr-box-header"><span class="tldr-badge">TL;DR</span><span class="label">If you remember nothing else from this lecture</span></div>' +
+      "<ul>" +
+      data.tldr.map((point) => `<li>${inline(point)}</li>`).join("") +
+      "</ul>";
+  }
+
+  /* ---------------- flashcards engine ---------------- */
+
+  function flashStorageKey(id) {
+    return `ct3-flash-${id}`;
+  }
+
+  function initFlashcards(data) {
+    if (!data.flashcards || !data.flashcards.length) return;
+    const key = flashStorageKey(data.id);
+    let state = storageGet(key) || { known: {}, order: null };
+    if (!state.order || state.order.length !== data.flashcards.length) {
+      state.order = shuffle(data.flashcards.map((c) => c.id));
+    }
+
+    const byId = {};
+    data.flashcards.forEach((c) => (byId[c.id] = c));
+
+    const grid = document.getElementById("flash-grid");
+    const counterEl = document.getElementById("flash-counter");
+    const total = data.flashcards.length;
+
+    function updateCounter() {
+      const n = Object.keys(state.known).filter((k) => state.known[k]).length;
+      counterEl.innerHTML = `<b>${n}</b> / ${total} marked known`;
+    }
+
+    function renderCard(id) {
+      const c = byId[id];
+      const card = document.createElement("div");
+      card.className = "flash-card" + (state.known[id] ? " known" : "");
+
+      const cardInner = document.createElement("div");
+      cardInner.className = "flash-card-inner";
+
+      const front = document.createElement("div");
+      front.className = "flash-face flash-front";
+      front.innerHTML = `<div class="flash-term">${inline(c.term)}</div><div class="flash-hint">click to reveal</div>`;
+
+      const back = document.createElement("div");
+      back.className = "flash-face flash-back";
+      const def = document.createElement("div");
+      def.className = "flash-def";
+      def.innerHTML = inline(c.definition);
+      back.appendChild(def);
+
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "btn flash-know-btn";
+      knowBtn.textContent = state.known[id] ? "✓ Known" : "Mark known";
+      knowBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        state.known[id] = !state.known[id];
+        storageSet(key, state);
+        card.classList.toggle("known", !!state.known[id]);
+        knowBtn.textContent = state.known[id] ? "✓ Known" : "Mark known";
+        updateCounter();
+      });
+      back.appendChild(knowBtn);
+
+      cardInner.appendChild(front);
+      cardInner.appendChild(back);
+      card.appendChild(cardInner);
+
+      card.addEventListener("click", () => card.classList.toggle("flipped"));
+
+      return card;
+    }
+
+    function render() {
+      grid.innerHTML = "";
+      state.order.forEach((id) => grid.appendChild(renderCard(id)));
+      updateCounter();
+    }
+
+    document.getElementById("flash-shuffle").addEventListener("click", () => {
+      state.order = shuffle(state.order);
+      storageSet(key, state);
+      render();
+    });
+
+    document.getElementById("flash-reset").addEventListener("click", () => {
+      state.known = {};
+      storageSet(key, state);
+      render();
+    });
+
+    storageSet(key, state);
+    render();
+  }
+
+  /* ---------------- MCQ engine ---------------- */
+
+  function mcqStorageKey(id) {
+    return `ct3-quiz-${id}`;
+  }
+
+  function newMcqState(data) {
+    const ids = data.mcqs.map((q) => q.id);
+    const order = shuffle(ids);
+    const optionOrder = {};
+    data.mcqs.forEach((q) => {
+      optionOrder[q.id] = shuffle(q.options.map((_, idx) => idx));
+    });
+    return { order, optionOrder, answers: {} };
+  }
+
+  function initQuiz(data) {
+    const key = mcqStorageKey(data.id);
+    let state = storageGet(key);
+    if (!state || !state.order || state.order.length !== data.mcqs.length) {
+      state = newMcqState(data);
+      storageSet(key, state);
+    }
+
+    const byId = {};
+    data.mcqs.forEach((q) => (byId[q.id] = q));
+
+    const list = document.getElementById("mcq-list");
+    const scoreEl = document.getElementById("quiz-score");
+    const barEl = document.getElementById("quiz-progress-fill");
+    const total = data.mcqs.length;
+
+    function updateScore() {
+      const answeredIds = Object.keys(state.answers);
+      const correctCount = answeredIds.filter((id) => state.answers[id].correct).length;
+      scoreEl.innerHTML = `<b>${correctCount}</b> / ${answeredIds.length} correct &nbsp;·&nbsp; ${answeredIds.length} / ${total} answered`;
+      barEl.style.width = `${(answeredIds.length / total) * 100}%`;
+    }
+
+    function renderQuestion(qid, displayIndex) {
+      const q = byId[qid];
+      const wrap = document.createElement("div");
+      wrap.className = "mcq-card";
+      const already = state.answers[qid];
+
+      const qEl = document.createElement("p");
+      qEl.className = "mcq-q";
+      qEl.innerHTML = `<span class="mcq-index">${displayIndex + 1}.</span><span>${inline(q.q)}</span>`;
+      wrap.appendChild(qEl);
+
+      const optsWrap = document.createElement("div");
+      optsWrap.className = "mcq-options";
+
+      const order = state.optionOrder[qid];
+      order.forEach((origIdx) => {
+        const btn = document.createElement("button");
+        btn.className = "mcq-option";
+        btn.innerHTML = inline(q.options[origIdx]);
+        btn.disabled = !!already;
+
+        if (already) {
+          if (origIdx === q.correct) btn.classList.add("correct");
+          else if (origIdx === already.chosen) btn.classList.add("incorrect");
+        }
+
+        btn.addEventListener("click", () => {
+          if (state.answers[qid]) return;
+          const correct = origIdx === q.correct;
+          state.answers[qid] = { chosen: origIdx, correct };
+          storageSet(mcqStorageKey(data.id), state);
+
+          Array.from(optsWrap.children).forEach((b) => (b.disabled = true));
+          if (correct) {
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("incorrect");
+            Array.from(optsWrap.children)[order.indexOf(q.correct)].classList.add("reveal-correct");
+          }
+          expl.classList.add("show");
+          updateScore();
+        });
+
+        optsWrap.appendChild(btn);
+      });
+
+      wrap.appendChild(optsWrap);
+
+      const expl = document.createElement("div");
+      expl.className = "mcq-explanation" + (already ? " show" : "");
+      expl.innerHTML = `<b>Why:</b> ${inline(q.explanation)}`;
+      wrap.appendChild(expl);
+
+      return wrap;
+    }
+
+    function render() {
+      list.innerHTML = "";
+      state.order.forEach((qid, idx) => list.appendChild(renderQuestion(qid, idx)));
+      updateScore();
+    }
+
+    document.getElementById("quiz-reset").addEventListener("click", () => {
+      state = newMcqState(data);
+      storageSet(key, state);
+      render();
+      document.getElementById("mcq-panel-top").scrollIntoView({ behavior: "smooth" });
+    });
+
+    render();
+  }
+
+  /* ---------------- technical questions engine ---------------- */
+
+  function techStorageKey(id) {
+    return `ct3-tech-${id}`;
+  }
+
+  function initTech(data) {
+    const key = techStorageKey(data.id);
+    let state = storageGet(key) || { reviewed: {} };
+
+    const list = document.getElementById("tech-list");
+    const counterEl = document.getElementById("tech-counter");
+    const total = data.techQuestions.length;
+
+    function updateCounter() {
+      const n = Object.keys(state.reviewed).filter((k) => state.reviewed[k]).length;
+      counterEl.innerHTML = `<b>${n}</b> / ${total} marked reviewed`;
+    }
+
+    data.techQuestions.forEach((tq, idx) => {
+      const wrap = document.createElement("div");
+      wrap.className = "tech-card";
+
+      const row = document.createElement("div");
+      row.className = "tech-q-row";
+
+      const qEl = document.createElement("p");
+      qEl.className = "tech-q";
+      qEl.innerHTML = `<span class="mcq-index">${idx + 1}.</span><span>${inline(tq.q)}</span>`;
+      row.appendChild(qEl);
+
+      const label = document.createElement("label");
+      label.className = "tech-reviewed-label";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = !!state.reviewed[tq.id];
+      cb.addEventListener("change", () => {
+        state.reviewed[tq.id] = cb.checked;
+        storageSet(key, state);
+        updateCounter();
+      });
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode("reviewed"));
+      row.appendChild(label);
+
+      wrap.appendChild(row);
+
+      const revealBtn = document.createElement("button");
+      revealBtn.className = "btn reveal-btn";
+      revealBtn.textContent = "Reveal model answer";
+
+      const answerEl = document.createElement("div");
+      answerEl.className = "tech-answer";
+      answerEl.innerHTML = renderMarkdown(tq.answer);
+
+      revealBtn.addEventListener("click", () => {
+        const showing = answerEl.classList.toggle("show");
+        revealBtn.textContent = showing ? "Hide model answer" : "Reveal model answer";
+      });
+
+      wrap.appendChild(revealBtn);
+      wrap.appendChild(answerEl);
+      list.appendChild(wrap);
+    });
+
+    updateCounter();
+  }
+
+  /* ---------------- boot ---------------- */
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const dataEl = document.getElementById("lecture-data");
+    if (!dataEl) return;
+    const data = JSON.parse(dataEl.textContent);
+    initTabs();
+    renderTLDR(data);
+    renderContent(data);
+    initQuiz(data);
+    initTech(data);
+    initFlashcards(data);
+  });
+})();
+
+/* Guided diagrams and local experiments; no network calls or quiz-state writes. */
+(function () {
+  'use strict';
+  const el = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+  const format = (value, digits = 2) => value.toLocaleString('en', { maximumFractionDigits: digits });
+  const button = (text, action) => {
+    const b = el('button', 'btn', text); b.type = 'button'; b.addEventListener('click', action); return b;
+  };
+  function paragraph(parent, text, className) { const p = el('p', className || '', text); parent.append(p); return p; }
+  function result(panel, title, ...notes) {
+    panel.replaceChildren(el('strong', '', title)); notes.forEach(note => paragraph(panel, note));
+  }
+  let fieldId = 0;
+  function select(form, label, options, initial) {
+    const field = el('div', 'learning-field'); const caption = el('label', '', label);
+    const input = el('select'); input.id = `learning-control-${fieldId++}`; caption.htmlFor = input.id; field.append(caption);
+    options.forEach(([value, text]) => { const o = el('option', '', text); o.value = value; input.append(o); });
+    if (initial !== undefined) input.value = initial;
+    field.append(input); form.append(field); return input;
+  }
+  function number(form, label, initial, min, max, step = 1) {
+    const field = el('div', 'learning-field'); const caption = el('label', '', label);
+    const input = el('input'); Object.assign(input, { type: 'number', value: String(initial), min: String(min), max: String(max), step: String(step) });
+    input.id = `learning-control-${fieldId++}`; caption.htmlFor = input.id; field.append(caption);
+    field.append(input); form.append(field); return input;
+  }
+  function toggle(form, label, checked = false) {
+    const field = el('label', 'learning-check-label'); const input = el('input'); input.type = 'checkbox'; input.checked = checked;
+    field.append(input, el('span', '', label)); form.append(field); return input;
+  }
+  function values(inputs, output, viz) {
+    if (inputs.some(input => input.value.trim() === '' || !input.validity.valid || !Number.isFinite(input.valueAsNumber))) {
+      result(output, 'Enter a valid value in every field.', 'Use the displayed units and the allowed range; the previous calculation has been cleared.');
+      output.classList.add('learning-error'); if (viz) viz.replaceChildren(); return null;
+    }
+    output.classList.remove('learning-error'); return inputs.map(input => input.valueAsNumber);
+  }
+  function bind(form, draw) { form.addEventListener('input', draw); form.addEventListener('change', draw); draw(); }
+  function meter(parent, fraction, label) {
+    const bar = el('div', 'learning-meter'); bar.setAttribute('role', 'img'); bar.setAttribute('aria-label', label);
+    const fill = el('span'); fill.style.width = `${Math.min(100, Math.max(0, fraction * 100))}%`; bar.append(fill); parent.append(bar);
+  }
+  function component(parent, label, alive, detail) {
+    const box = el('div', `learning-component${alive ? '' : ' offline'}`, `${alive ? 'Available' : 'Unavailable'} · ${label}`);
+    box.append(el('small', '', detail)); parent.append(box);
+  }
+  function deployment(form, output, viz) {
+    const placement = select(form, 'Replica placement', [['single', 'One host in Zone A'], ['hosts', 'Two hosts in Zone A'], ['zones', 'Hosts in two zones']], 'single');
+    const failure = select(form, 'Failure to simulate', [['none', 'No failure'], ['host', 'Host A fails'], ['zone', 'Zone A fails'], ['region', 'Whole region fails']], 'host');
+    bind(form, () => {
+      const spread = placement.value !== 'single'; const crossZone = placement.value === 'zones';
+      const a = failure.value === 'none';
+      const b = failure.value === 'none' || (spread && failure.value === 'host') || (crossZone && failure.value === 'zone');
+      const apiCount = Number(a) + Number(b); const state = a || (spread && b);
+      viz.replaceChildren(); viz.className = 'learning-viz learning-domains';
+      const left = el('div', 'learning-domain'); left.append(el('h4', '', 'Region R / Zone A / Host A'));
+      component(left, 'API 1', a, 'One running instance'); component(left, 'Primary DB', a, 'Primary before the failure');
+      viz.append(left);
+      if (spread) {
+        const right = el('div', 'learning-domain'); right.append(el('h4', '', `Region R / Zone ${crossZone ? 'B' : 'A'} / Host B`));
+        component(right, 'API 2', b, 'Different host from API 1');
+        component(right, 'DB standby', b, 'Promotion must be configured and tested'); viz.append(right);
+      } else {
+        left.style.gridColumn = '1 / -1';
+        component(left, 'API 2', b, 'Shares Host A with API 1 and the primary DB');
+        paragraph(left, 'No standby in this placement. All three components share this one host boundary.');
+      }
+      result(output, `${apiCount} API instance${apiCount === 1 ? '' : 's'} survives; ${state ? 'a database copy survives' : 'no database copy survives'}.`,
+        apiCount && state ? (a ? 'The model retains a request path to the primary.' : 'The model has potential service capacity after standby promotion and client reconnection. It does not predict the time to restore service.') : 'This model has no complete surviving application-and-state path. Adding only API instances cannot fix a missing state dependency.',
+        'Assumptions: both hosts share Region R; each spread placement includes a standby. Entry points, network failures, replication lag and backup restoration are outside this model.');
+    });
+  }
+  function access(form, output, viz) {
+    const caller = select(form, 'Caller', [['anonymous', 'No verified session'], ['owner', 'Student: record owner'], ['other', 'Student: another person'], ['tutor', 'Tutor assigned to this module'], ['unassigned', 'Tutor not assigned to this module']], 'owner');
+    const action = select(form, 'Requested action', [['read', 'Read the result'], ['write', 'Amend the result']]);
+    const policy = select(form, 'Permission service', [['up', 'Available'], ['down', 'Unavailable']]);
+    bind(form, () => {
+      const identified = caller.value !== 'anonymous';
+      const allowed = identified && policy.value === 'up' && (caller.value === 'tutor' || (caller.value === 'owner' && action.value === 'read'));
+      viz.replaceChildren();
+      component(viz, 'Authentication', identified, identified ? 'A verified identity exists.' : 'No verified identity; protected access stops here.');
+      component(viz, 'Authorisation', allowed, !identified ? 'Not evaluated for protected access without identity.' : policy.value === 'down' ? 'Required decision is unavailable: fail closed.' : allowed ? 'The scenario policy permits this action and resource.' : 'The identity exists, but this action or resource is outside its permitted scope.');
+      result(output, allowed ? 'Allow under this scenario policy.' : 'Deny the protected operation.',
+        allowed ? 'Continue with validation and safe implementation; passing authorisation does not prove the submitted data or query is safe.' : 'A hidden UI control, encrypted connection or well-formed record ID would not change this permission result.',
+        'This is an illustrative policy, not a rule inferred for every university system.');
+    });
+  }
+  function reliability(form, output, viz) {
+    const uptime = number(form, 'MTTF — hours operating (1–100,000)', 200, 1, 100000, .1);
+    const repair = number(form, 'MTTR — hours repairing (0–10,000)', 4, 0, 10000, .1);
+    bind(form, () => {
+      const nums = values([uptime, repair], output, viz); if (!nums) return;
+      const [u, r] = nums; const cycle = u + r; const ratio = u / cycle;
+      viz.replaceChildren(); meter(viz, ratio, `${format(ratio * 100, 4)}% of the modelled cycle is operating time`);
+      paragraph(viz, `Operating ${format(ratio * 100, 4)}% · repairing ${format((1 - ratio) * 100, 4)}%`);
+      result(output, `Availability ≈ ${format(ratio * 100, 4)}%`,
+        `MTBF = ${format(u)} + ${format(r)} = ${format(cycle)} h. Availability = ${format(u)} / ${format(cycle)} × 100.`,
+        `At this ratio, a 30-day (720-hour) interval corresponds to about ${format(720 * (1 - ratio), 3)} h unavailable. This is a model projection, not an observed outage count or a service guarantee.`,
+        'Try MTTF 200 and MTTR 1: availability improves through faster recovery even though mean operating time has not changed. Zero repair time is an idealised mathematical boundary.');
+    });
+  }
+  function presentation(form, output, viz) {
+    const fields = [number(form, 'Problem + requirements — minutes', 2, 0, 20, .5), number(form, 'Design + demo — minutes', 5, 0, 20, .5), number(form, 'Evidence + limitations — minutes', 2, 0, 20, .5), number(form, 'Conclusion + next step — minutes', 1, 0, 20, .5)];
+    bind(form, () => {
+      const nums = values(fields, output, viz); if (!nums) return;
+      const total = nums.reduce((a, b) => a + b, 0); viz.replaceChildren();
+      meter(viz, total / 10, `${format(total)} of 10 minutes allocated`);
+      const gaps = [];
+      if (nums[0] === 0) gaps.push('Without the problem or requirements, the design has no stated purpose.');
+      if (nums[1] === 0) gaps.push('Make time to explain how the solution works and show relevant behaviour.');
+      if (nums[2] === 0) gaps.push('A demo alone is weak support for broad claims: reserve time for measurements and limitations.');
+      if (nums[3] === 0) gaps.push('Protect a brief conclusion and a clear next step.');
+      result(output, total > 10 ? `${format(total - 10)} min over the ten-minute budget.` : `${format(10 - total)} min unallocated.`,
+        `Allocated: ${format(total)} min. Include transitions and setup in rehearsal; this allocation does not predict actual speaking time.`,
+        ...(gaps.length ? gaps : ['All four parts have time allocated. Rehearse aloud to verify that the argument is coherent and fits.']),
+        total > 10 ? 'Cut optional implementation detail or move it to an appendix; avoid removing all evidence or the conclusion.' : 'Check whether questions belong inside the actual course time limit before using spare time.');
+    });
+  }
+  function latency(form, output, viz) {
+    const count = number(form, 'Slow requests out of 20 (0–20)', 1, 0, 20);
+    const delay = number(form, 'Slow-request latency — ms (100–5,000)', 2000, 100, 5000, 100);
+    bind(form, () => {
+      const nums = values([count, delay], output, viz); if (!nums) return;
+      const [n, slow] = nums; const samples = Array.from({length: 20}, (_, i) => i < 20 - n ? 100 : slow);
+      const mean = samples.reduce((a, b) => a + b, 0) / 20; const p95 = samples[Math.ceil(.95 * samples.length) - 1];
+      viz.replaceChildren(); const bars = el('div', 'learning-bars'); bars.setAttribute('role', 'img'); bars.setAttribute('aria-label', `${20 - n} requests at 100 ms and ${n} requests at ${slow} ms, sorted by latency. Fixed scale from 0 to 5000 ms.`);
+      samples.forEach(value => { const bar = el('span', `learning-bar${value > 100 ? ' slow' : ''}`); bar.style.height = `${value / 5000 * 100}%`; bar.title = `${value} ms`; bars.append(bar); }); viz.append(bars);
+      paragraph(viz, 'Sorted requests: each bar is one observation. Fixed vertical scale: 0–5,000 ms. Blue = 100 ms; amber = slower.');
+      result(output, `Mean ${format(mean)} ms · p95 ${format(p95)} ms · maximum ${format(Math.max(...samples))} ms`,
+        `Nearest-rank p95 is sorted observation ceil(0.95 × 20) = 19. With one slow observation it can remain 100 ms; with two slow observations it rises to the slow value.`,
+        'These 20 observations are deliberately small and all successful. A real test also needs enough samples, workload and environment context, error accounting and throughput.');
+    });
+  }
+  function approach(form, output, viz) {
+    form.className = '';
+    const standard = toggle(form, 'The workflow fits supported forms, approvals and connectors.', true);
+    const custom = toggle(form, 'The critical behaviour needs specialised logic or tight runtime control.');
+    const exportable = toggle(form, 'Runnable behaviour must be portable to another platform.');
+    const critical = toggle(form, 'The app handles sensitive data or important business effects.', true);
+    bind(form, () => {
+      viz.replaceChildren();
+      const title = custom.checked ? 'Investigate a custom extension or custom implementation.' : standard.checked ? 'A visual implementation is a candidate to evaluate.' : 'Establish workflow fit before selecting the approach.';
+      result(output, title,
+        custom.checked ? 'Identify the exact behaviour outside the supported model. A prototype or benchmark should test whether an extension can satisfy it; do not assume platform abstractions expose every needed control.' : standard.checked ? 'Supported building blocks may reduce implementation effort, but test the workflow’s exceptions and the real integration boundary.' : 'List the required operations and exceptions, then verify that the platform can express them.',
+        exportable.checked ? 'Portability constraint: test export of executable workflows, permissions and dependencies, not only records. Include migration effort in the decision.' : 'Even without a strict portability requirement, document ownership and an acceptable data-recovery/exit path.',
+        critical.checked ? 'Sensitive or consequential workflow: independently verify access scope, connector privileges, retries and recovery before release.' : 'Even a low-impact prototype needs accurate scope and an owner before becoming a maintained dependency.',
+        'An AI assistant can help create either kind of implementation. Tool origin does not remove the need to inspect, understand and verify it.');
+    });
+  }
+  function buffer(form, output, viz) {
+    const rate = number(form, 'Event rate — events/s (0–100,000)', 50, 0, 100000);
+    const size = number(form, 'Payload per event — bytes (1–1,000,000)', 200, 1, 1000000);
+    const duration = number(form, 'Offline duration — minutes (0–10,080)', 60, 0, 10080);
+    const overhead = number(form, 'Assumed storage overhead — % (0–500)', 25, 0, 500);
+    const capacity = number(form, 'Available buffer — decimal MB (1–100,000)', 64, 1, 100000);
+    bind(form, () => {
+      const nums = values([rate, size, duration, overhead, capacity], output, viz); if (!nums) return;
+      const [r, s, d, o, c] = nums; const raw = r * s * d * 60; const adjusted = raw * (1 + o / 100); const mb = adjusted / 1e6;
+      const perSecond = r * s * (1 + o / 100); const fullMinutes = perSecond ? c * 1e6 / perSecond / 60 : null;
+      viz.replaceChildren(); meter(viz, mb / c, `${format(mb)} MB needed for ${format(c)} MB capacity`);
+      paragraph(viz, `${format(mb / c * 100)}% of capacity required (bar capped at 100%).`);
+      result(output, mb > c ? `Does not fit: ${format(mb - c)} MB over capacity.` : `Fits this estimate: ${format(c - mb)} MB remaining.`,
+        `Raw payload = ${format(r)} × ${format(s)} × ${format(d * 60)} = ${format(raw, 0)} bytes (${format(raw / 1e6)} MB). With ${format(o)}% assumed overhead: ${format(mb)} MB.`,
+        fullMinutes === null ? 'At zero event rate this model does not fill the buffer.' : `Starting empty at a constant rate, the estimated buffer fills after ${format(fullMinutes)} minutes.`,
+        'Assumptions: no events drain while offline, fixed event size and a chosen overhead. Real storage metadata, retries and safety margin need measurement. Define backpressure or a justified overflow policy.');
+    });
+  }
+  const revisionCases = [
+    {label: 'Recovery after a zone failure', choices: ['A diagram showing two API replicas, with no state details.', 'A controlled zone-failure test measuring usable-service recovery and preserved writes.', 'A screenshot of both instances running before the failure.'], correct: 1, explanations: ['The placement may help, but state dependencies and actual recovery remain unverified.', 'This supplies relevant observations for RTO, RPO and integrity under the tested scenario. Compare them with targets and record remaining dependencies.', 'Pre-failure health is not evidence of recovery after a failure.']},
+    {label: 'A student cannot read another student’s result', choices: ['The result ID is a long random string.', 'The admin button is hidden.', 'Direct requests under several identities exercise server-side object permissions.'], correct: 2, explanations: ['Unpredictable IDs do not enforce permission.', 'UI visibility does not establish server-side access control.', 'Positive and negative object-access tests support this specific claim. Include role, tenant and failure cases rather than only an administrator account.']},
+    {label: 'The checkout meets a performance target', choices: ['A documented workload meets latency and error criteria in a stated environment.', 'The application is hosted in the cloud.', 'A single local request returned quickly.'], correct: 0, explanations: ['This connects conditions and observations to the acceptance rules. Its conclusion is still bounded by the workload and environment tested.', 'Cloud placement is not a measured capacity result.', 'One request does not establish expected-load behaviour or tail latency.']}
+  ];
+  function revision(form, output, viz) {
+    const claim = select(form, 'Claim to evaluate', revisionCases.map((c, i) => [String(i), c.label]));
+    const choices = el('div'); form.after(choices);
+    const draw = () => {
+      const c = revisionCases[Number(claim.value)]; choices.replaceChildren(); viz.replaceChildren();
+      result(output, 'Choose the evidence before reading the explanation.', 'A mechanism, a diagram and a measured result support different kinds of claims.');
+      c.choices.forEach((text, i) => { const b = button(text, () => {
+        choices.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', 'true');
+        result(output, i === c.correct ? 'Appropriate evidence for this claim.' : 'This evidence is insufficient.', c.explanations[i]);
+      }); b.classList.add('learning-node'); b.style.marginBottom = '10px'; b.setAttribute('aria-pressed', 'false'); choices.append(b); });
+    };
+    bind(form, draw);
+  }
+  const labs = {deployment, access, reliability, presentation, latency, approach, buffer, revision};
+  function walkthrough(parent, lesson) {
+    const flow = el('ol', 'learning-flow'); flow.setAttribute('aria-label', 'Select a stage in the diagram');
+    const detail = el('div', 'learning-step'); detail.setAttribute('aria-live', 'polite');
+    let current = 0; const nodes = [];
+    const controls = el('div', 'learning-controls');
+    const previous = button('Previous step', () => show(current - 1));
+    const next = button('Next step', () => show(current + 1));
+    const position = el('span', 'learning-position'); controls.append(previous, position, next);
+    function show(index) {
+      current = Math.max(0, Math.min(lesson.steps.length - 1, index));
+      const s = lesson.steps[current]; nodes.forEach((node, i) => node.setAttribute('aria-pressed', String(i === current)));
+      detail.replaceChildren(el('h3', '', s.title)); paragraph(detail, s.explanation);
+      paragraph(detail, `Example: ${s.example}`); paragraph(detail, `Common trap: ${s.trap}`, 'learning-trap');
+      previous.disabled = current === 0; next.disabled = current === lesson.steps.length - 1;
+      position.textContent = `Step ${current + 1} of ${lesson.steps.length}`;
+    }
+    lesson.steps.forEach((s, i) => {
+      const item = el('li'); const node = button('', () => show(i)); node.className = 'learning-node';
+      node.append(el('span', '', String(i + 1).padStart(2, '0')), el('span', '', s.label)); nodes.push(node); item.append(node); flow.append(item);
+    });
+    parent.append(flow, detail, controls); show(0);
+    const all = el('details'); all.append(el('summary', '', 'Read the whole walkthrough'));
+    lesson.steps.forEach(s => { all.append(el('h3', '', s.title)); paragraph(all, s.explanation); paragraph(all, `Example: ${s.example}`); paragraph(all, `Common trap: ${s.trap}`); });
+    parent.append(all);
+  }
+  function checks(parent, lesson, id) {
+    lesson.checks.forEach((c, i) => {
+      const box = el('div', 'learning-check'); const fieldset = el('fieldset'); fieldset.append(el('legend', '', `Predict ${i + 1}: ${c.prompt}`));
+      let selected = null; const feedback = el('div', 'learning-feedback'); feedback.hidden = true; feedback.setAttribute('aria-live', 'polite');
+      const submit = button('Check reasoning', () => {
+        if (selected === null) return;
+        feedback.hidden = false; feedback.textContent = `${selected === c.correct ? 'Correct. ' : 'Try again. '}${c.feedback[selected].replace(/^Correct\.\s*/, '')}`;
+      }); submit.disabled = true;
+      c.options.forEach((text, index) => {
+        const label = el('label', 'learning-choice'); const radio = el('input'); radio.type = 'radio'; radio.name = `${id}-predict-${i}`;
+        radio.addEventListener('change', () => { selected = index; submit.disabled = false; feedback.hidden = true; });
+        label.append(radio, el('span', '', text)); fieldset.append(label);
+      });
+      box.append(fieldset, submit, feedback); parent.append(box);
+    });
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    const dataNode = document.getElementById('lecture-data'); if (!dataNode) return;
+    const data = JSON.parse(dataNode.textContent); const lesson = data.learning; if (!lesson || !labs[lesson.lab]) return;
+    const content = document.getElementById('content-body');
+    const section = el('section', 'learning'); section.id = 'guided-learning'; section.setAttribute('aria-labelledby', 'learning-title');
+    section.append(el('div', 'learning-kicker', 'Explore · predict · explain'));
+    const title = el('h2', '', lesson.title); title.id = 'learning-title'; section.append(title); paragraph(section, lesson.intro, 'learning-intro');
+    walkthrough(section, lesson);
+    section.append(el('h3', '', lesson.labTitle)); paragraph(section, lesson.labIntro, 'learning-intro');
+    const form = el('div', 'learning-form'); const viz = el('div', 'learning-viz'); const output = el('div', 'learning-result'); output.setAttribute('aria-live', 'polite'); output.setAttribute('aria-atomic', 'true');
+    section.append(form, viz, output); labs[lesson.lab](form, output, viz);
+    const defaults = [...form.querySelectorAll('input, select')].map(input => ({input, value: input.value, checked: input.checked}));
+    const reset = button('Reset experiment', () => {
+      defaults.forEach(({input, value, checked}) => { input.value = value; if (input.type === 'checkbox') input.checked = checked; });
+      form.dispatchEvent(new Event('input', {bubbles: true}));
+    });
+    section.append(reset); checks(section, lesson, data.id);
+    const heading = [...content.querySelectorAll('h2')].find(h => h.textContent === lesson.before);
+    if (heading) heading.before(section); else content.append(section);
+    const jump = el('a', 'learning-jump', `Explore this topic: guided diagram, ${lesson.labTitle.toLowerCase()}, and two reasoning checks →`); jump.href = '#guided-learning'; content.prepend(jump);
+  });
+})();
+
+</script>
+</body>
+</html>
